@@ -28,19 +28,14 @@ src_compile() {
 }
 
 src_install() {
-	cd ${S}
-	dodir /usr/bin
+    dodir /usr/bin
+    ln -s nvim "${D}/usr/bin/vim"
+
+    cd ${S}
     dobin xxd
     dodoc LICENSE
     insinto /usr/share/man/man1
     newins xxd.1 xxd.1
-
-    # Create the symlink after ensuring the target exists
-    if [[ -e "${D}/usr/bin/nvim" ]]; then
-        ln -s /usr/bin/nvim "${D}/usr/bin/vim"
-    else
-        einfo "Warning: nvim not found, skipping symlink creation for vim."
-    fi
 }
 
 pkg_postinst() {
