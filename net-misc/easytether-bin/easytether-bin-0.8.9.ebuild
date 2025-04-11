@@ -20,18 +20,19 @@ arm64? ( ${SRC_BASE_URI}/${P}-${PV}-aarch64.${PFORMAT} -> ${P}_aarch64-${PV}.${P
 LICENSE="unknown:freeware"
 KEYWORDS="x86 amd64 arm arm64"
 SLOT="0"
-IUSE=""
+IUSE="systemd"
 
 DEPEND="
         sys-libs/glibc
         dev-libs/openssl-compat
         dev-libs/libusb
         net-wireless/bluez
-        sys-apps/systemd-utils
+        !systemd? ( sys-apps/systemd-utils )
         "
 RDEPEND="${DEPEND}"
 BDEPEND=""
 RESTRICT="strip"
+
 
 S=${WORKDIR}
 
