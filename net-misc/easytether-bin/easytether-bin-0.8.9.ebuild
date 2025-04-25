@@ -20,13 +20,13 @@ arm64? ( ${SRC_BASE_URI}/${P}-${PV}-aarch64.${PFORMAT} -> ${P}_aarch64-${PV}.${P
 LICENSE="unknown:freeware"
 KEYWORDS="x86 amd64 arm arm64"
 SLOT="0"
-IUSE="systemd"
+IUSE="bluetooth systemd"
 
 DEPEND="
         sys-libs/glibc
         dev-libs/openssl-compat
         dev-libs/libusb
-        net-wireless/bluez
+        bluetooth? ( net-wireless/bluez )
         !systemd? ( sys-apps/systemd-utils )
         "
 RDEPEND="${DEPEND}"
@@ -61,7 +61,9 @@ src_install() {
     keepdir "/var/empty"
 
     # Install binaries
-    dobin "usr/bin/easytether-bluetooth"
+    if use bluetooth; then
+      dobin "usr/bin/easytether-bluetooth"
+    fi
     dobin "usr/bin/easytether-local"
     dobin "usr/bin/easytether-usb"
 
