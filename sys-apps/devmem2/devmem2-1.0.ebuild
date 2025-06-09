@@ -22,7 +22,11 @@ src_unpack(){
 }
 
 src_compile(){
-	${CC} ${CFLAGS} ${LDFLAGS} -fPIC devmem2.c -o devmem2
+  if [ -v CC]; then
+    ${CC} ${CFLAGS} ${LDFLAGS} -fPIC devmem2.c -o devmem2
+  else
+    cc ${CFLAGS} ${LDFLAGS} -fPIC devmem2.c -o devmem2
+  fi
 }
 
 src_install(){
