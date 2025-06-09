@@ -18,7 +18,7 @@ BDEPEND="dev-vcs/git"
 S="${WORKDIR}/linux/tools/power/x86/turbostat"
 inherit toolchain-funcs
 
-pkg_setup(){
+pkg_setup() {
   cd /tmp
   git clone -n --depth=1 --filter=tree:0 https://github.com/torvalds/linux.git
   cd linux
@@ -41,8 +41,13 @@ src_compile() {
   emake turbostat
 }
 
-src_install(){
+src_install() {
   cd ${S}
   dobin turbostat
   dodoc turbostat.8
+}
+
+pkg_postinst() {
+  rm -rf /tmp/linux
+  rm /tmp/turbostat-src.tar.gz
 }
