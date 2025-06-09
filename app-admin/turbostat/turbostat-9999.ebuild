@@ -17,21 +17,27 @@ BDEPEND="dev-vcs/git"
 
 S="${WORKDIR}/linux/tools/power/x86/turbostat"
 inherit toolchain-funcs
-src_unpack(){
-  cd ${WORKDIR}
+
+pkg_setup(){
+  cd /tmp
   git clone -n --depth=1 --filter=tree:0 https://github.com/torvalds/linux.git
   cd linux
   git sparse-checkout init
   git sparse-checkout set tools/power/x86/turbostat tools/include arch/x86/include/asm include/linux
   git checkout
+  cd /tmp
+  tar -czf turbostat-src.tar.gz linux
 }
 
-src_prepare() {
-  sed "s/-O2 -Wall -Wextra/${CFLAGS}/" Makefile
+src_unpack() {
+  cp /tmp/turbostat-src.tar.gz ${WORKDIR}
+  cd ${WORKDIR}
+  tar xzf turbostat-src.tar.gz
 }
 
 src_compile() {
   cd ${S}
+  sed -i "s/-O2 -Wall -Wextra/${CFLAGS}/" Makefile
   emake turbostat
 }
 
