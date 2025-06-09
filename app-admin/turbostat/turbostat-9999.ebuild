@@ -13,30 +13,30 @@ RESTRICT=""
 
 RDEPEND=""
 DEPEND="${RDEPEND}"
-BDEPEND=""
+BDEPEND="dev-vcs/git"
 
-S="${WORKDIR}/turbostat/tools/power/x86/turbostat"
+S="${WORKDIR}/linux/tools/power/x86/turbostat"
 inherit toolchain-funcs
 src_unpack(){
-	mkdir -p ${WORKDIR}/turbostat
-	cd ${WORKDIR}/turbostat
-	mkdir -p tools/power/x86/
-	mkdir -p arch/x86/
-	mkdir include
+  cd ${WORKDIR}
+  git clone -n --depth=1 --filter=tree:0 https://github.com/torvalds/linux.git
+  cd linux
+  git sparse-checkout init
+  git sparse-checkout set tools/power/x86/turbostat tools/include arch/x86/include/asm include/linux
+  git checkout
+}
 
-	cp -r /usr/src/linux/tools/power/x86/turbostat tools/power/x86
-	cp -r /usr/src/linux/tools/include tools
-	cp -r /usr/src/linux/arch/x86/include arch/x86
-	cp -r /usr/src/linux/include/linux include
+src_prepare() {
+  sed "s/-O2 -Wall -Wextra/${CFLAGS}/" Makefile
 }
 
 src_compile() {
-	cd ${S}
-	emake turbostat
+  cd ${S}
+  emake turbostat
 }
 
 src_install(){
-	cd ${S}
-	dobin turbostat
-	dodoc turbostat.8
+  cd ${S}
+  dobin turbostat
+  dodoc turbostat.8
 }
