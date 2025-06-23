@@ -15,7 +15,7 @@ KEYWORDS="x86 amd64"
 IUSE=""
 RESTRICT="strip"
 
-RDEPEND="=gui-wm/hyprland-0.46"
+RDEPEND=">=gui-wm/hyprland-0.46"
 DEPEND="dev-util/cmake
         ${RDEPEND}"
 BDEPEND=""
