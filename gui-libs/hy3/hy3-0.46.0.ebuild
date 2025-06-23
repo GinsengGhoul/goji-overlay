@@ -16,7 +16,7 @@ IUSE=""
 RESTRICT="strip"
 
 RDEPEND=">=gui-wm/hyprland-0.46"
-DEPEND="dev-util/cmake
+DEPEND="dev-build/cmake
         ${RDEPEND}"
 BDEPEND=""
 
