@@ -19,6 +19,7 @@ RDEPEND=">=gui-wm/hyprland-0.46"
 DEPEND="dev-build/cmake
         ${RDEPEND}"
 BDEPEND=""
+HYPRLIBS="/usr/lib/hyprland"
 
 src_configure() {
   cmake_src_configure
@@ -29,8 +30,7 @@ src_compile() {
 }
 
 src_install() {
-  if [[ -e "${D}/usr/lib/libhy3.so" ]]; then
-    dodir /usr/lib
-    mv "${D}/usr/lib/libhy3.so" "${D}/usr/lib/"
-  fi
+  dodir ${HYPRLIBS}
+  into ${HYPRLIBS}
+  dolib.so $BUILD_DIR/libhy3.so
 }
