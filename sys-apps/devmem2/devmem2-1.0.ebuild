@@ -22,10 +22,12 @@ src_unpack(){
 }
 
 src_compile(){
-  if [ -v CC]; then
-    ${CC} ${CFLAGS} ${LDFLAGS} -fPIC devmem2.c -o devmem2
+  if [ -n ${CC} ]; then
+    ${CC} -c devmem2.c ${CFLAGS} -fPIC
+    ${CC} -o devmem2 devmem2.o ${LDFLAGS}
   else
-    cc ${CFLAGS} ${LDFLAGS} -fPIC devmem2.c -o devmem2
+    cc -c devmem2.c ${CFLAGS} -fPIC
+    cc -o devmem2 devmem2.o ${LDFLAGS}
   fi
 }
 

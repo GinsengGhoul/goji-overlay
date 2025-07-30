@@ -13,7 +13,8 @@ IUSE=""
 RESTRICT="strip"
 
 RDEPEND="sys-apps/devmem2
-		 sys-apps/msr-tools"
+		 sys-apps/msr-tools
+		 app-admin/turbostat"
 DEPEND="${RDEPEND}"
 BDEPEND=""
 
