@@ -29,6 +29,7 @@ src_compile() {
 
 src_install() {
 	dodir /usr/bin
+	ln -s nvim "${D}/usr/bin/vi"
 	ln -s nvim "${D}/usr/bin/vim"
 
 	cd ${S}
