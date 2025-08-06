@@ -8,7 +8,7 @@ SRC_URI=""
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="x86 amd64"
-IUSE=""
+IUSE="custom-cflags"
 RESTRICT=""
 
 RDEPEND=""
@@ -37,7 +37,9 @@ src_unpack() {
 
 src_compile() {
   cd ${S}
-  sed -i "s/-O2 -Wall -Wextra/${CFLAGS}/" Makefile
+  if use custom-cflags; then
+    sed -i "s/-O2 -Wall -Wextra/${CFLAGS}/" Makefile
+  fi
   emake turbostat
 }
 
