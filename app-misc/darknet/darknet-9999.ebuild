@@ -53,7 +53,9 @@ src_configure(){
   einfo "CFLAGS=${CFLAGS}"
   einfo "CXXFLAGS=${CXXFLAGS}"
   einfo "LDFLAGS=${LDFLAGS}"
-
+  
+  sed -i 's|\${OpenBLAS_INCLUDE_DIRS}|/usr/include/openblas|g' CM_dependencies.cmake
+  sed -i 's|\${OpenBLAS_LIBRARIES}|/usr/lib64/libopenblas.so|g' CM_dependencies.cmake
   cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="${D}/usr" -B build .
 }
 src_compile(){
