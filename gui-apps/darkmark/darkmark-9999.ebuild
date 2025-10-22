@@ -8,7 +8,7 @@ S="${WORKDIR}/${P}"
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="x86 amd64"
-IUSE="march"
+IUSE=""
 
 RDEPEND="app-misc/darknet
          dev-cpp/darkhelp
@@ -19,7 +19,8 @@ RDEPEND="app-misc/darknet
          x11-libs/libXcursor
          sys-apps/file
          app-text/poppler
-         media-libs/opencv"
+         media-libs/opencv
+         media-fonts/liberation-fonts"
 DEPEND="${RDEPEND}"
 BDEPEND=""
 
