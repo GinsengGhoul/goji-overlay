@@ -8,7 +8,7 @@ S="${WORKDIR}/${P}"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="x86 amd64"
-IUSE="march"
+IUSE=""
 
 RDEPEND="app-misc/darknet
          dev-cpp/tclap
