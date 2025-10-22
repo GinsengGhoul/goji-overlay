@@ -1,6 +1,4 @@
 EAPI=8
-#inherit cmake
-inherit flag-o-matic
 
 DESCRIPTION="Darknet/YOLO object detection framework"
 HOMEPAGE="https://darknetcv.ai/"
@@ -10,9 +8,9 @@ S="${WORKDIR}/${P}"
 LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="x86 amd64"
-IUSE="march"
+IUSE="cpuonly march"
 
-RDEPEND="sci-libs/openblas
+RDEPEND="cpuonly? ( sci-libs/openblas )
          media-libs/opencv"
 DEPEND="${RDEPEND}"
 BDEPEND=""
