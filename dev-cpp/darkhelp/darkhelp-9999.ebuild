@@ -35,7 +35,7 @@ src_configure(){
   CXXFLAGS="${CXXFLAGS} ${unused}"
   cd "${S}"
   cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="${D}/usr" -B build .
-  #sed -i "s|#include <thread>|#include <thread>\n#include <deque>|" src-lib/DarkHelpThreads.hpp
+  sed -i "s|#include <thread>|#include <thread>\n#include <deque>|" src-lib/DarkHelpThreads.hpp
 }
 src_compile(){
   cd "${S}/build"
