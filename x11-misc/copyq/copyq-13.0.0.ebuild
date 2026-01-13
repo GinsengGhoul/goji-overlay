@@ -47,6 +47,8 @@ BDEPEND="
 	)
 "
 
+PATCHES=( "${FILESDIR}/${P}-fix-cmake-for-qt6-6.10.patch" )
+
 src_configure() {
 	local mycmakeargs=(
 		-DCMAKE_BUILD_TYPE=Release
