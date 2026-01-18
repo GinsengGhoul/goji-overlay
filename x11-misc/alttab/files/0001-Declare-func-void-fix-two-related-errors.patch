@@ -1,0 +1,393 @@
+From 665e3e369f74ab0075c22a46a3cb3a9f76bdd762 Mon Sep 17 00:00:00 2001
+From: Peter Pentchev <roam@ringlet.net>
+Date: Tue, 18 Feb 2025 19:47:59 +0200
+Subject: [PATCH] Declare func(void), fix two related errors
+
+In the C language, a function that accepts no arguments should be
+declared as func(void), not func(); the latter declares a function
+that may accept any number of arguments of any type.
+
+The func() declarations hid two errors:
+- getOffendingModifiersMask() was invoked with an extra parameter
+  (placed onto the stack by the caller and then ignored by the function)
+- pngReadToDrawable_test() was declared without its `pngfile` parameter
+---
+ src/alttab.c |  4 ++--
+ src/alttab.h | 30 +++++++++++++++---------------
+ src/ewmh.c   |  6 +++---
+ src/gui.c    | 16 ++++++++--------
+ src/icon.c   |  2 +-
+ src/icon.h   |  2 +-
+ src/pngd.h   |  2 +-
+ src/randr.c  |  2 +-
+ src/rp.c     |  4 ++--
+ src/util.c   |  4 ++--
+ src/util.h   |  4 ++--
+ src/win.c    | 10 +++++-----
+ 12 files changed, 43 insertions(+), 43 deletions(-)
+
+diff --git a/src/alttab.c b/src/alttab.c
+index 9287a61..c72fefc 100644
+--- a/src/alttab.c
++++ b/src/alttab.c
+@@ -45,7 +45,7 @@ static XrmDatabase db;
+ //
+ // help and exit
+ //
+-static void helpexit()
++static void helpexit(void)
+ {
+     msg(-1, "the task switcher, v%s\n\
+ Options:\n\
+@@ -530,7 +530,7 @@ static int use_args_and_xrm(int *argc, char **argv)
+ //
+ static int grabKeysAtStartup(bool grabUngrab)
+ {
+-    g.ignored_modmask = getOffendingModifiersMask(dpy); // or 0 for g.debug
++    g.ignored_modmask = getOffendingModifiersMask(); // or 0 for g.debug
+     char *grabhint =
+         "Error while (un)grabbing key 0x%x with mask 0x%x/0x%x.\nProbably other program already grabbed this combination.\nCheck: xdotool keydown alt+Tab; xdotool key XF86LogGrabInfo; xdotool keyup Tab; sleep 1; xdotool keyup alt\nand then look for active device grabs in /var/log/Xorg.0.log\nOr try Ctrl-Tab instead of Alt-Tab:  alttab -mk Control_L\n";
+ // attempt XF86Ungrab? probably too invasive
+diff --git a/src/alttab.h b/src/alttab.h
+index 66589ff..dc15db5 100644
+--- a/src/alttab.h
++++ b/src/alttab.h
+@@ -214,31 +214,31 @@ typedef struct {
+ } Globals;
+ 
+ // gui
+-int startupGUItasks();
++int startupGUItasks(void);
+ int uiShow(bool direction);
+-void uiExpose();
+-int uiHide();
+-int uiNextWindow();
+-int uiPrevWindow();
+-int uiKillWindow();
++void uiExpose(void);
++int uiHide(void);
++int uiNextWindow(void);
++int uiPrevWindow(void);
++int uiKillWindow(void);
+ int uiSelectWindow(int ndx);
+ void uiButtonEvent(XButtonEvent e);
+-Window getUiwin();
++Window getUiwin(void);
+ void shutdownGUI(void);
+ 
+ // windows
+-int startupWintasks();
++int startupWintasks(void);
+ int addIconFromProperty(WindowInfo * wi);
+ int addIconFromHints(WindowInfo * wi);
+ int addIconFromFiles(WindowInfo * wi);
+ int addWindowInfo(Window win, int reclevel, int wm_id, unsigned long desktop,
+                   char *wm_name);
+ int initWinlist(void);
+-void freeWinlist();
++void freeWinlist(void);
+ int setFocus(int winNdx);
+-int rp_startupWintasks();
++int rp_startupWintasks(void);
+ int x_initWindowsInfoRecursive(Window win, int reclevel);
+-int rp_initWinlist();
++int rp_initWinlist(void);
+ int x_setFocus(int wndx);
+ int rp_setFocus(int winNdx);
+ int execAndReadStdout(char *exe, char *args[], char *buf, int bufsize);
+@@ -254,15 +254,15 @@ void shutdownWin(void);
+ 
+ /* EWHM */
+ bool ewmh_detectFeatures(EwmhFeatures * e);
+-Window ewmh_getActiveWindow();
+-int ewmh_initWinlist();
++Window ewmh_getActiveWindow(void);
++int ewmh_initWinlist(void);
+ int ewmh_setFocus(int winNdx, Window fwin); // fwin used if non-zero
+-unsigned long ewmh_getCurrentDesktop();
++unsigned long ewmh_getCurrentDesktop(void);
+ unsigned long ewmh_getDesktopOfWindow(Window w);
+ bool ewmh_skipWindowInTaskbar(Window w);
+ 
+ /* RANDR */
+-bool randrAvailable();
++bool randrAvailable(void);
+ bool randrGetViewport(quad * res, bool * multihead);
+ 
+ /* autil */
+diff --git a/src/ewmh.c b/src/ewmh.c
+index 35c1b9c..ef63400 100644
+--- a/src/ewmh.c
++++ b/src/ewmh.c
+@@ -178,7 +178,7 @@ bool ewmh_detectFeatures(EwmhFeatures * e)
+ //
+ // active window or 0
+ //
+-Window ewmh_getActiveWindow()
++Window ewmh_getActiveWindow(void)
+ {
+     Window w = (Window) 0;
+     char *awp;
+@@ -196,7 +196,7 @@ Window ewmh_getActiveWindow()
+ // initialize winlist, correcting sortlist
+ // return 1 if ok
+ //
+-int ewmh_initWinlist()
++int ewmh_initWinlist(void)
+ {
+     Window *client_list;
+     unsigned long client_list_size;
+@@ -295,7 +295,7 @@ static unsigned long ewmh_getDesktopFromProp(Window w, char *prop1, char *prop2)
+ //
+ // get current desktop in EWMH WM
+ //
+-unsigned long ewmh_getCurrentDesktop()
++unsigned long ewmh_getCurrentDesktop(void)
+ {
+     return ewmh_getDesktopFromProp(root, "_NET_CURRENT_DESKTOP", "_WIN_WORKSPACE");
+ }
+diff --git a/src/gui.c b/src/gui.c
+index 662d115..2796aea 100644
+--- a/src/gui.c
++++ b/src/gui.c
+@@ -120,7 +120,7 @@ static void drawFr(GC gc, int f)
+ //
+ // draw selected and unselected frames around tiles
+ //
+-static void framesRedraw()
++static void framesRedraw(void)
+ {
+     int f;
+     for (f = 0; f < g.maxNdx; f++) {
+@@ -350,7 +350,7 @@ static int placeSingleTile (int j) {
+ // called once per execution
+ // mostly initializes g.*
+ 
+-int startupGUItasks()
++int startupGUItasks(void)
+ {
+ // if viewport is not fixed, then initialize vp* at every show
+     if (g.option_vp_mode == VP_SPECIFIC) {
+@@ -705,7 +705,7 @@ int uiShow(bool direction)
+ // Expose event callback
+ // redraw our window
+ //
+-void uiExpose()
++void uiExpose(void)
+ {
+     msg(0, "expose ui\n");
+ // if WM moved uiwin, here is the place
+@@ -743,7 +743,7 @@ void uiExpose()
+ //
+ // remove ui and switch to chosen window
+ //
+-int uiHide()
++int uiHide(void)
+ {
+     grabKeysAtUiShow(false);
+     // order is important: to set focus in Metacity,
+@@ -783,7 +783,7 @@ int uiHide()
+ //
+ // select next item in g.winlist
+ //
+-int uiNextWindow()
++int uiNextWindow(void)
+ {
+     if (!uiwin)
+         return 0;               // kb events may trigger it even when no window drawn yet
+@@ -798,7 +798,7 @@ int uiNextWindow()
+ //
+ // select previous item in g.winlist
+ //
+-int uiPrevWindow()
++int uiPrevWindow(void)
+ {
+     if (!uiwin)
+         return 0;               // kb events may trigger it even when no window drawn yet
+@@ -813,7 +813,7 @@ int uiPrevWindow()
+ //
+ // kill X client of current window
+ //
+-int uiKillWindow()
++int uiKillWindow(void)
+ {
+     Window w;
+     char *n;
+@@ -888,7 +888,7 @@ void uiButtonEvent(XButtonEvent e)
+ //
+ // our window
+ //
+-Window getUiwin()
++Window getUiwin(void)
+ {
+     return uiwin;
+ }
+diff --git a/src/icon.c b/src/icon.c
+index 6f89271..820e93a 100644
+--- a/src/icon.c
++++ b/src/icon.c
+@@ -34,7 +34,7 @@ extern Window root;
+ //
+ // icon constructor: safe defaults
+ //
+-icon_t *initIcon()
++icon_t *initIcon(void)
+ {
+     icon_t *ic;
+ 
+diff --git a/src/icon.h b/src/icon.h
+index 2e18153..dfc3ba4 100644
+--- a/src/icon.h
++++ b/src/icon.h
+@@ -57,7 +57,7 @@ typedef struct {
+     UT_hash_handle hh;
+ } icon_t;
+ 
+-icon_t *initIcon();
++icon_t *initIcon(void);
+ void deleteIcon(icon_t * ic);
+ int initIconHash(icon_t ** ihash);
+ int allocIconDirs(char ** icon_dirs);
+diff --git a/src/pngd.h b/src/pngd.h
+index 597b5b9..76881bd 100644
+--- a/src/pngd.h
++++ b/src/pngd.h
+@@ -46,6 +46,6 @@ int pngDraw(TImage * img, Drawable d, XImage * ximage, Visual * visual,
+             uint8_t bg_red, uint8_t bg_green, uint8_t bg_blue);
+ int pngReadToDrawable(char *pngpath, Drawable d, uint8_t bg_red,
+                       uint8_t bg_green, uint8_t bg_blue);
+-int pngReadToDrawable_test();
++int pngReadToDrawable_test(char *pngfile);
+ 
+ #endif
+diff --git a/src/randr.c b/src/randr.c
+index d1898e7..567791d 100644
+--- a/src/randr.c
++++ b/src/randr.c
+@@ -142,7 +142,7 @@ static bool x_get_activity_area(quad * res, Window * fw)
+ // check for randr at runtime
+ // assuming (for now) it's available at build time
+ //
+-bool randrAvailable()
++bool randrAvailable(void)
+ {
+     int maj, min;
+     bool ok;
+diff --git a/src/rp.c b/src/rp.c
+index 8984e06..1b9f46b 100644
+--- a/src/rp.c
++++ b/src/rp.c
+@@ -104,7 +104,7 @@ static int rp_add_windows_in_group(int current_group, int window_group)
+ //
+ // early initialization in ratpoison
+ //
+-int rp_startupWintasks()
++int rp_startupWintasks(void)
+ {
+ 
+ // search for ratpoison executable for later execv
+@@ -158,7 +158,7 @@ int rp_startupWintasks()
+ //
+ // initialize winlist/update sortlist from ratpoison output
+ //
+-int rp_initWinlist()
++int rp_initWinlist(void)
+ {
+ #define  fallback    { msg(-1, "using current rp group\n") ; \
+     return rp_add_windows_in_group(DESKTOP_UNKNOWN, DESKTOP_UNKNOWN); }
+diff --git a/src/util.c b/src/util.c
+index 7d60a52..4ef8154 100644
+--- a/src/util.c
++++ b/src/util.c
+@@ -33,7 +33,7 @@ bool ee_complain;
+ //
+ // get all possible modifiers
+ //
+-unsigned int getOffendingModifiersMask()
++unsigned int getOffendingModifiersMask(void)
+ {
+     unsigned int lockmask[3];   // num=0 scroll=1 caps=2
+     int i;
+@@ -501,7 +501,7 @@ int drawMultiLine(Drawable d, XftFont * font,
+ // g++ XftTest.cc -lX11 -lXft `pkg-config --cflags freetype2`
+ // not used in alttab
+ //
+-int drawMultiLine_test()
++int drawMultiLine_test(void)
+ {
+     // define these as globals in caller
+     dpy = XOpenDisplay(NULL);
+diff --git a/src/util.h b/src/util.h
+index 7be052a..71c8e82 100644
+--- a/src/util.h
++++ b/src/util.h
+@@ -66,7 +66,7 @@ typedef struct {
+ }
+ 
+ 
+-unsigned int getOffendingModifiersMask();
++unsigned int getOffendingModifiersMask(void);
+ int changeKeygrab(Window win, bool grab, KeyCode keycode,
+                   unsigned int modmask, unsigned int ignored_modmask);
+ int zeroErrorHandler(Display * dpy_our, XErrorEvent * theEvent);
+@@ -91,7 +91,7 @@ char *utf8index(char *s, size_t pos);
+ int drawMultiLine(Drawable d, XftFont * font, XftColor * xftcolor, char *str,
+                   unsigned int x1, unsigned int y1, unsigned int width,
+                   unsigned int height);
+-int drawMultiLine_test();
++int drawMultiLine_test(void);
+ int drawSingleLine(Drawable d, XftFont * font, XftColor * xftcolor, char *str,
+                   unsigned int x1, unsigned int y1, unsigned int width,
+                   unsigned int height);
+diff --git a/src/win.c b/src/win.c
+index 75104e0..8ab8bcc 100644
+--- a/src/win.c
++++ b/src/win.c
+@@ -69,7 +69,7 @@ static int sort_by_order(const void *p1, const void *p2)
+ //
+ // debug output of sortlist
+ //
+-static void print_sortlist()
++static void print_sortlist(void)
+ {
+     PermanentWindowInfo *s;
+     msg(0, "sortlist:\n");
+@@ -81,7 +81,7 @@ static void print_sortlist()
+ //
+ // debug output of winlist
+ //
+-static void print_winlist()
++static void print_winlist(void)
+ {
+     int wi, si;
+     PermanentWindowInfo *s;
+@@ -146,7 +146,7 @@ void addToSortlist(Window w, bool to_head, bool move)
+ // early initialization
+ // once per execution
+ //
+-int startupWintasks()
++int startupWintasks(void)
+ {
+     long rootevmask = 0;
+ 
+@@ -623,7 +623,7 @@ int initWinlist(void)
+ // counterpair for initWinlist
+ // frees icons and winlist, but not tiles, as they are allocated in gui.c
+ //
+-void freeWinlist()
++void freeWinlist(void)
+ {
+     msg(0, "destroying icons and winlist\n");
+     if (g.debug > 1) {
+@@ -842,7 +842,7 @@ void winFocusChangeEvent(XFocusChangeEvent e)
+     addToSortlist(w, true, true);
+ }
+ 
+-void shutdownWin()
++void shutdownWin(void)
+ {
+     deleteIconHash(&g.ic);
+ }
+-- 
+2.52.0
+
