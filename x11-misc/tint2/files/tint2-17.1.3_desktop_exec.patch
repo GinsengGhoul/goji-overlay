@@ -1,0 +1,32 @@
+When tint2 loads .desktop files it displays an error and does not load the
+file if the 'Exec' key is not present.
+   tint2: Loading icon themes
+   tint2: Icon themes loaded
+   tint2: Loading .desktop files
+   tint2: Could not load /usr/share/applications/qemu.desktop
+   tint2: Loading icon theme cache...
+   tint2: Desktop files loaded
+
+In this case, the QEMU application's qemu.desktop file intentionally does not
+have 'Exec' because the program can't be started without unique command line
+options, but the .desktop file is still useful to indicate what icon to use
+for the program (to Wayland, in particular).
+   http://gitlab.com/qemu-project/qemu/-/issues/440
+
+Also, in the freedesktop.org desktop entry spec the 'Exec' key is not required.
+   http://specifications.freedesktop.org/desktop-entry-spec/latest/recognized-keys.html
+
+With this patch tint2 allows a desktop file without 'Exec' and instead rejects
+the file if the required 'Name' field is not found.
+
+--- tint2-v17.1.3/src/launcher/apps-common.c.orig	2022-03-24 05:49:12.000000000 -0400
++++ tint2-v17.1.3/src/launcher/apps-common.c	2025-02-03 01:22:38.506979026 -0500
+@@ -231,7 +231,7 @@
+     expand_exec(entry, entry->path);
+ 
+     free(line);
+-    return entry->exec != NULL;
++    return entry->name != NULL;
+ }
+ 
+ gboolean read_desktop_file(const char *path, DesktopEntry *entry)
