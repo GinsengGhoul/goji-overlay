@@ -42,6 +42,11 @@ fi
 exec java -Dsun.java2d.xrender=false -jar /opt/xdman/xdman.jar "$@"
 EOF
   chmod +x xdman.sh
+  cat << 'EOF' > "youtube-dl"
+#!/bin/sh
+yt-dlp --compat-options youtube-dl "${@}"
+EOF
+  chmod +x youtube-dl
   cat << 'EOF' > "xdman.desktop"
 [Desktop Entry]
 Encoding=UTF-8
@@ -88,6 +93,8 @@ src_install() {
   
   exeinto /opt/xdman
   doexe "${WORKDIR}/xdman.sh"
+  doexe "${WORKDIR}/youtube-dl"
 
   dosym /opt/xdman/xdman.sh /usr/bin/xdman
+  dosym /usr/bin/ffmpeg /opt/xdman/ffmpeg
 }
