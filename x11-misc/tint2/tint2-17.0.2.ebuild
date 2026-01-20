@@ -6,9 +6,8 @@ EAPI=8
 inherit cmake xdg-utils
 
 DESCRIPTION="Lightweight panel/taskbar for Linux"
-HOMEPAGE="https://gitlab.com/nick87720z/tint2"
-SRC_URI="https://gitlab.com/nick87720z/${PN}/-/archive/v${PV}/${PN}-v${PV}.tar.gz"
-S=${WORKDIR}/${PN}-v${PV}
+HOMEPAGE="https://gitlab.com/o9000/tint2"
+SRC_URI="https://gitlab.com/o9000/tint2/-/archive/17.0.2/tint2-17.0.2.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
@@ -18,7 +17,7 @@ IUSE="battery debug startup-notification sanitize svg tint2conf"
 DEPEND="
 	dev-libs/glib:2
 	svg? ( gnome-base/librsvg:2 )
-	>=media-libs/imlib2-1.4.2[X,png]
+  >=media-libs/imlib2-1.4.2[X,png]
 	x11-libs/cairo[X]
 	x11-libs/pango
 	tint2conf? ( x11-libs/gtk+:3 )
@@ -35,10 +34,7 @@ DEPEND="
 "
 RDEPEND="${DEPEND}"
 
-PATCHES=( "${FILESDIR}/${P}_desktop_exec.patch"
-          "${FILESDIR}/${P}_glib2_fix.patch"
-          "${FILESDIR}/${P}_fix_X_events.patch"
-          "${FILESDIR}/${P}_save_cache.patch")
+PATCHES=( "${FILESDIR}/${P}_fix_segfault.patch")
 
 src_prepare() {
 	cmake_src_prepare
