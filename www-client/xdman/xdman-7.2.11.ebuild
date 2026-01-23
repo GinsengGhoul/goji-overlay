@@ -4,7 +4,7 @@ DESCRIPTION=" Powerfull download accelerator and video downloader"
 HOMEPAGE="https://xtremedownloadmanager.com/"
 
 SRC_URI="https://github.com/subhra74/xdm/archive/refs/tags/${PV}.zip
-         https://github.com/subhra74/xdm/raw/refs/heads/old-master-xdm-7.2.11/app/XDM/xdm-logo.ico"
+         https://raw.githubusercontent.com/subhra74/xdm/refs/heads/old-master-xdm-7.2.11/app/XDM/xdm-logo.svg"
 
 S="${WORKDIR}/${P}"
 LICENSE="GPL-2"
@@ -14,10 +14,11 @@ IUSE=""
 RESTRICT="strip"
 
 RDEPEND="virtual/jdk
-net-misc/yt-dlp"
+         net-misc/yt-dlp
+         x11-themes/hicolor-icon-theme"
 DEPEND="${RDEPEND}"
 BDEPEND="app-arch/unzip
-          sys-apps/coreutils
+         sys-apps/coreutils
          dev-java/maven-bin"
 
 SRC_DIR="${S}/app"
@@ -57,7 +58,7 @@ Exec=xdman
 Name=Xtreme Download Manager
 Comment=Powerful download accelerator and video downloader
 Categories=Network;
-Icon=xdman.ico
+Icon=xdman
 EOF
 
   cp ${DISTDIR}/xdm-icon.ico ${WORKDIR}
@@ -89,7 +90,7 @@ src_install() {
   
   insinto /opt/xdman
   doins "${SRC_DIR}/target/xdman.jar"
-  doins "${DISTDIR}/xdm-logo.ico"
+  doins "${DISTDIR}/xdm-logo.svg"
   
   exeinto /opt/xdman
   doexe "${WORKDIR}/xdman.sh"
@@ -97,4 +98,5 @@ src_install() {
 
   dosym /opt/xdman/xdman.sh /usr/bin/xdman
   dosym /usr/bin/ffmpeg /opt/xdman/ffmpeg
+  dosym /opt/xdman/xdman-logo.svg /usr/share/icons/hicolor/scalable/apps/xdman.svg
 }
