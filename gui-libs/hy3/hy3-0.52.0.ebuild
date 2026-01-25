@@ -14,7 +14,7 @@ IUSE=""
 RESTRICT="strip"
 
 MY_PV="${PV/.0/}"
-RDEPEND=">=gui-wm/hyprland-${MY_PV}.0 <gui-wm/hyprland-${MY_PV}.99"
+RDEPEND=">=gui-wm/hyprland-${PV} <gui-wm/hyprland-${MY_PV}.99"
 DEPEND="dev-build/cmake
         ${RDEPEND}"
 BDEPEND=""
