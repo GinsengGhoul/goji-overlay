@@ -24,10 +24,10 @@ BDEPEND=""
 #src_prepare(){}
 #src_configure(){}
 src_compile() {
-  default_src_compile
+  emake LAYOUT="deskintl"
   sed -i "s/VERSION/${PV}/g" ${PN}.1
 }
 src_install() {
-  dobin ${PN}-mobintl
+  dobin ${PN}-deskintl
   doman ${PN}.1
 }
