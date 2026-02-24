@@ -4,6 +4,7 @@ DESCRIPTION="Simple program to read/write from/to any location in memory."
 HOMEPAGE="http://lartmaker.nl/lartware/port/"
 
 SRC_URI="http://lartmaker.nl/lartware/port/devmem2.c"
+inherit toolchain-funcs
 
 LICENSE="GPL-2"
 SLOT="0"
@@ -18,19 +19,15 @@ BDEPEND=""
 S="${WORKDIR}/"
 
 src_unpack(){
-	cp ${S}/../distdir/devmem2.c ${S}
+  cp ${S}/../distdir/devmem2.c ${S}
 }
 
 src_compile(){
-  if [ -n ${CC} ]; then
-    ${CC} -c devmem2.c ${CFLAGS} -fPIC
-    ${CC} -o devmem2 devmem2.o ${LDFLAGS}
-  else
-    cc -c devmem2.c ${CFLAGS} -fPIC
-    cc -o devmem2 devmem2.o ${LDFLAGS}
-  fi
+  CC=$(tc-getCC)
+  ${CC} ${CFLAGS} ${LDFLAGS} -c devmem2.c ${CFLAGS} -fPIC
+  ${CC} ${CFLAGS} ${LDFLAGS} -o devmem2 devmem2.o ${LDFLAGS}
 }
 
 src_install(){
-	dobin devmem2
+  dobin devmem2
 }
