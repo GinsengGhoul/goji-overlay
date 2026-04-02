@@ -3,7 +3,7 @@ EAPI=8
 DESCRIPTION="This is a sample skeleton ebuild file"
 HOMEPAGE="https://foo.example.org/"
 
-SRC_URI="ftp://foo.example.org/${P}.tar.gz"
+SRC_URI="ftp://foo.example.org/${P}.tar.gz -> ${P}.tar.gz"
 #EGIT_REPO_URI="https://github.com/SUSE/cpuset.git"
 #inherit git-r3
 
