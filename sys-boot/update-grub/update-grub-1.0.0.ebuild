@@ -8,23 +8,13 @@ SLOT="0"
 KEYWORDS="amd64"
 IUSE=""
 
-DEPEND="
-        app-alternatives/sh
-        "
+DEPEND="app-alternatives/sh
+        sys-boot/grub"
 RDEPEND="${DEPEND}"
 BDEPEND=""
 
 S=${WORKDIR}
 
-src_unpack() {
-  cat << 'EOF' > "update-grub"
-  #!/bin/sh
-set -e
-exec grub-mkconfig -o /boot/grub/grub.cfg "$@"
-EOF
-  chmod +x "update-grub"
-}
-
 src_install() {
-    dobin "update-grub"
+  dobin "${FILESDIR}/update-grub"
 }
