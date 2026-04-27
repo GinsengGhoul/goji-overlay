@@ -3,10 +3,11 @@ EAPI=8
 DESCRIPTION=" Powerfull download accelerator and video downloader"
 HOMEPAGE="https://xtremedownloadmanager.com/"
 
-SRC_URI="https://github.com/subhra74/xdm/archive/refs/tags/${PV}.zip
-         https://raw.githubusercontent.com/subhra74/xdm/refs/heads/old-master-xdm-7.2.11/app/XDM/xdm-logo.svg"
+SRC_URI="https://github.com/subhra74/xdm/archive/refs/tags/${PV}.tar.gz -> ${P}.tar.gz
+         https://raw.githubusercontent.com/subhra74/xdm/refs/heads/old-master-xdm-7.2.11/app/XDM/xdm-logo.svg
+         https://raw.githubusercontent.com/subhra74/xdm/refs/heads/old-master-xdm-7.2.11/app/XDM/xdm-logo.ico"
 
-S="${WORKDIR}/${P}"
+#S="${WORKDIR}/${P}"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="x86 amd64"
@@ -17,66 +18,35 @@ RDEPEND="virtual/jdk
          net-misc/yt-dlp
          x11-themes/hicolor-icon-theme"
 DEPEND="${RDEPEND}"
-BDEPEND="app-arch/unzip
-         sys-apps/coreutils
-         dev-java/maven-bin"
+BDEPEND="sys-apps/coreutils
+         dev-java/maven-bin:3.9"
 
 SRC_DIR="${S}/app"
 maven_repo="${S}/mvn"
-#pkg_setup(){}
 
-src_unpack(){
-  cat << 'EOF' > "xdman.sh"
-#!/bin/sh
+src_unpack() {
+  default
+  mv "${WORKDIR}/xdm-${PV}" "${S}"
 
-# Check if the script is being run as root
-if [ "$(id -u)" -eq 0 ]; then
-  echo "It's not recommended to run XDM as root, as it can cause problems"
-fi
+  cp "${DISTDIR}/xdm-logo."{ico,svg} "${WORKDIR}/"
 
-# Source the configuration file if it exists
-if [ -f "$HOME/.xdmanrc" ]; then
-  . "$HOME/.xdmanrc"
-fi
+  cp "${FILESDIR}/"{xdman.desktop,xdman.sh,youtube-dl} "${WORKDIR}/"
 
-# Run the Java application
-exec java -Dsun.java2d.xrender=false -jar /opt/xdman/xdman.jar "$@"
-EOF
-  chmod +x xdman.sh
-  cat << 'EOF' > "youtube-dl"
-#!/bin/sh
-yt-dlp --compat-options youtube-dl "${@}"
-EOF
-  chmod +x youtube-dl
-  cat << 'EOF' > "xdman.desktop"
-[Desktop Entry]
-Encoding=UTF-8
-Version=1.0
-Type=Application
-Terminal=false
-Exec=xdman
-Name=Xtreme Download Manager
-Comment=Powerful download accelerator and video downloader
-Categories=Network;
-Icon=xdman
-EOF
+  cd "${WORKDIR}"
+  mv "xdm-${PV}" "${S}"
 
-  cp ${DISTDIR}/xdm-icon.ico ${WORKDIR}
-
-  cd ${WORKDIR}
-  unzip "${DISTDIR}/${PV}.zip"
-  mv xdm-${PV} ${S}
-
-  tar -xvf ${FILESDIR}/mvn.tar.xz -C ${S}
+  # local maven_repo made with this
+  # mvn dependency:go-offline -Dmaven.repo.local=/tmp/mvn
+  tar -xvf "${FILESDIR}/mvn.tar.xz" -C "${S}"
 }
 
-src_prepare(){
+src_prepare() {
   default
   cd ${SRC_DIR}
   sed -i '/<classifier><\/classifier>/d' pom.xml
 }
-#src_configure(){}
-src_compile(){
+
+src_compile() {
   cd ${SRC_DIR}
   mvn -Dmaven.repo.local="${maven_repo}" -e clean
   mvn -Dmaven.repo.local="${maven_repo}" -e package --offline
@@ -86,12 +56,13 @@ src_install() {
   insinto /usr/share/applications
   doins "${WORKDIR}/xdman.desktop"
 
-  dodir /opt/xdman 
-  
+  dodir /opt/xdman
+
   insinto /opt/xdman
   doins "${SRC_DIR}/target/xdman.jar"
-  doins "${DISTDIR}/xdm-logo.svg"
-  
+  doins "${WORKDIR}/xdm-logo.svg"
+  doins "${WORKDIR}/xdm-logo.ico"
+
   exeinto /opt/xdman
   doexe "${WORKDIR}/xdman.sh"
   doexe "${WORKDIR}/youtube-dl"
@@ -99,4 +70,5 @@ src_install() {
   dosym /opt/xdman/xdman.sh /usr/bin/xdman
   dosym /usr/bin/ffmpeg /opt/xdman/ffmpeg
   dosym /opt/xdman/xdman-logo.svg /usr/share/icons/hicolor/scalable/apps/xdman.svg
+  dosym /opt/xdman/xdman-logo.ico /usr/share/icons/hicolor/256x256/apps/xdman.ico
 }
