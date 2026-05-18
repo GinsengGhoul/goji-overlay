@@ -3,7 +3,6 @@ EAPI=8
 DESCRIPTION="Internet access via smartphone"
 HOMEPAGE="http://www.mobile-stream.com/easytether/drivers.html"
 
-
 P="easytether"
 PV="0.8.9-1"
 PFORMAT="pkg.tar.xz"
@@ -27,12 +26,11 @@ DEPEND="
         dev-libs/openssl-compat
         dev-libs/libusb
         bluetooth? ( net-wireless/bluez )
-        !systemd? ( sys-apps/systemd-utils )
+        !systemd? ( virtual/udev )
         "
 RDEPEND="${DEPEND}"
 BDEPEND=""
 RESTRICT="strip"
-
 
 S=${WORKDIR}
 
@@ -44,46 +42,43 @@ src_unpack() {
   mv etc/NetworkManager/system-connections/tap-easytether etc/NetworkManager/system-connections/tap-easytether.nmconnection
 
   #make udev rule nonsystemd
-  echo "ACTION=="add", SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_interface", ENV{INTERFACE}=="255/66/1", RUN+="/usr/bin/easytether-usb -n %S%p"" > usr/lib/udev/rules.d/99-easytether-usb.rules
+  echo "ACTION=="add", SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_interface", ENV{INTERFACE}=="255/66/1", RUN+="/usr/bin/easytether-usb -n %S%p"" >usr/lib/udev/rules.d/99-easytether-usb.rules
 }
 
 pkg_preinst() {
-    if ! getent passwd _easytether &>/dev/null; then
-        useradd -r -c "easytether" -d / -M -s /usr/bin/nologin -U _easytether
-    fi
+  if ! getent passwd _easytether &>/dev/null; then
+    useradd -r -c "easytether" -d / -M -s /usr/bin/nologin -U _easytether
+  fi
 }
 
 src_install() {
-    # Install configuration files
-    dodir "etc/NetworkManager/system-connections"
-    dodir "usr/lib/udev/rules.d"
-    keepdir "/etc/easytether"
-    keepdir "/var/empty"
+  # Install configuration files
+  dodir "etc/NetworkManager/system-connections"
+  dodir "usr/lib/udev/rules.d"
+  keepdir "/etc/easytether"
+  keepdir "/var/empty"
 
-    # Install binaries
-    if use bluetooth; then
-      dobin "usr/bin/easytether-bluetooth"
-    fi
-    dobin "usr/bin/easytether-local"
-    dobin "usr/bin/easytether-usb"
+  # Install binaries
+  if use bluetooth; then
+    dobin "usr/bin/easytether-bluetooth"
+  fi
+  dobin "usr/bin/easytether-local"
+  dobin "usr/bin/easytether-usb"
 
-    # install files
-    insinto "etc/NetworkManager/system-connections"
-    doins "etc/NetworkManager/system-connections/tap-easytether.nmconnection"
+  # install files
+  insinto "etc/NetworkManager/system-connections"
+  doins "etc/NetworkManager/system-connections/tap-easytether.nmconnection"
 
-    insinto "usr/lib/udev/rules.d"
-    doins "usr/lib/udev/rules.d/99-easytether-usb.rules"
+  insinto "usr/lib/udev/rules.d"
+  doins "usr/lib/udev/rules.d/99-easytether-usb.rules"
 
-
-
-    # Create empty directory
-    keepdir var/empty
+  # Create empty directory
+  keepdir var/empty
 }
 
 pkg_postinst() {
-    udevadm control --reload-rules
-    udevadm trigger
-    elog "easytether-bin has been installed."
-    elog "Please ensure that you have the necessary permissions to use it."
+  udevadm control --reload-rules
+  udevadm trigger
+  elog "easytether-bin has been installed."
+  elog "Please ensure that you have the necessary permissions to use it."
 }
-
