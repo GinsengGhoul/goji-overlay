@@ -18,9 +18,13 @@ RDEPEND=""
 DEPEND="${RDEPEND}"
 BDEPEND=""
 
+#pkg_pretend(){}
 #pkg_setup(){}
 #src_unpack(){}
 #src_prepare(){}
 #src_configure(){}
 #src_compile(){}
+#src_test(){}
 #src_install(){}
+#pkg_preinst(){}
+#pkg_postinst(){}
