@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "https://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<use>
+		<flag name="prebuilt">Use prebuilt external binaries and tarballs for V8 and Lindera IPADIC instead of compiling V8 from source and embedding dictionary data</flag>
+	</use>
+	<upstream>
+		<remote-id type="github">SimoHypers/limusic</remote-id>
+		<bugs-to>https://github.com/SimoHypers/limusic/issues</bugs-to>
+	</upstream>
+</pkgmetadata>

@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=LiMusic
+Comment=Native YouTube Music desktop client
+Exec=limusic-app
+Icon=limusic
+Terminal=false
+Type=Application
+Categories=AudioVideo;Audio;Music;Player;
+Keywords=youtube;music;player;streaming;
