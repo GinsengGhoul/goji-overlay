@@ -16,7 +16,7 @@ RESTRICT="strip mirror"
 inherit font
 
 RDEPEND="
-  >=x11-misc/sddm-0.21.0
+  >=gui-apps/sddm-0.21.0
   >=dev-qt/qtbase-6.8.0:6=
   >=dev-qt/qtsvg-6.8.0:6=
   >=dev-qt/qtmultimedia-6.8.0:6=
