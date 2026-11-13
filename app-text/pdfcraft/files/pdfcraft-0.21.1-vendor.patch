@@ -1,0 +1,1992 @@
+diff '--color=auto' -Naur a/.cargo/config.toml b/.cargo/config.toml
+--- a/.cargo/config.toml	2026-11-11 17:40:29.000000000 -0800
++++ b/.cargo/config.toml	2026-11-13 01:36:51.911190472 -0800
+@@ -5,3 +5,49 @@
+ # engine's kernels (rten-simd) and other vectorised code only use it when compiled in.
+ [target.wasm32-unknown-unknown]
+ rustflags = ["-C", "target-feature=+simd128"]
++
++[source.crates-io]
++replace-with = "vendored-sources"
++
++[source."git+https://github.com/storytold/craft-libs?rev=60ede99985ef1e5df87a2aca66ed538eb23dec99"]
++git = "https://github.com/storytold/craft-libs"
++rev = "60ede99985ef1e5df87a2aca66ed538eb23dec99"
++replace-with = "vendored-sources"
++
++[source."git+https://github.com/storytold/craft-libs?rev=6e03f65bf45181db77ba6229716e6624db9eb25b"]
++git = "https://github.com/storytold/craft-libs"
++rev = "6e03f65bf45181db77ba6229716e6624db9eb25b"
++replace-with = "vendored-sources"
++
++[source."git+https://github.com/storytold/craft-libs?rev=787a7a0f972fd1d7a7618fdbeca3a5267a0407ff"]
++git = "https://github.com/storytold/craft-libs"
++rev = "787a7a0f972fd1d7a7618fdbeca3a5267a0407ff"
++replace-with = "vendored-sources"
++
++[source."git+https://github.com/storytold/craft-libs?rev=fd5e2feff6ea25bed371a99cc732b3968d621505"]
++git = "https://github.com/storytold/craft-libs"
++rev = "fd5e2feff6ea25bed371a99cc732b3968d621505"
++replace-with = "vendored-sources"
++
++[source."git+https://github.com/storytold/egui.git?rev=725a39fca940f77149ffbb9c58eef405a16997bc"]
++git = "https://github.com/storytold/egui.git"
++rev = "725a39fca940f77149ffbb9c58eef405a16997bc"
++replace-with = "vendored-sources"
++
++[source."git+https://github.com/storytold/winit.git?rev=a517b3846ee8457d84ee4975110bfda6797c44dc"]
++git = "https://github.com/storytold/winit.git"
++rev = "a517b3846ee8457d84ee4975110bfda6797c44dc"
++replace-with = "vendored-sources"
++
++[source."git+https://github.com/storytold/winprint.rs?rev=64e7afd4d1483512385012c340ecaaaf0f3beb7f"]
++git = "https://github.com/storytold/winprint.rs"
++rev = "64e7afd4d1483512385012c340ecaaaf0f3beb7f"
++replace-with = "vendored-sources"
++
++[source."git+https://github.com/storytold/winprint.rs?rev=e90c444476609485ea3f5ff67ab12f65d75b11df"]
++git = "https://github.com/storytold/winprint.rs"
++rev = "e90c444476609485ea3f5ff67ab12f65d75b11df"
++replace-with = "vendored-sources"
++
++[source.vendored-sources]
++directory = "vendor"
+diff '--color=auto' -Naur a/Cargo.lock b/Cargo.lock
+--- a/Cargo.lock	2026-11-11 17:40:29.000000000 -0800
++++ b/Cargo.lock	2026-11-13 01:36:51.911190472 -0800
+@@ -4,9 +4,9 @@
+ 
+ [[package]]
+ name = "accesskit"
+-version = "0.25.1"
++version = "0.25.2"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "ad442f58ee04714aaa0ba0a2768c1ea1935b29507bb22ddece8cbbc76db02932"
++checksum = "4e883d1d28c5fd5568c79ed2d2bd48d9f2fd3945c8974ed0f53690ceddb051be"
+ dependencies = [
+  "enumn",
+  "serde",
+@@ -15,9 +15,9 @@
+ 
+ [[package]]
+ name = "accesskit_atspi_common"
+-version = "0.21.0"
++version = "0.21.1"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "52c182f9c282ac9c5638d876d551d15e5f7d397ec263349a0c6a2b61595dd5e4"
++checksum = "24f5baf62e34a4a6c30e3d697e4782f821a7337049c44c3b40576a27dfbb580d"
+ dependencies = [
+  "accesskit",
+  "accesskit_consumer",
+@@ -29,9 +29,9 @@
+ 
+ [[package]]
+ name = "accesskit_consumer"
+-version = "0.39.1"
++version = "0.39.2"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "8a45e2bb300bea6d5f33a82c3e051c3ddc6f41c209750f68a0acbe991a284344"
++checksum = "f3da8f27636015191b2264ee1df681503170a632cafd832fdc1edfdd4e3a2fd3"
+ dependencies = [
+  "accesskit",
+  "hashbrown 0.17.1",
+@@ -39,37 +39,37 @@
+ 
+ [[package]]
+ name = "accesskit_ios"
+-version = "0.2.1"
++version = "0.2.2"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "28e539d64b27fd4c14de8f78ada8f7c944c092f52f7e49fb63316507a57f6937"
++checksum = "a5280724673bbfa8b30a838c013500b719392989be3b97c5a9964062c252c232"
+ dependencies = [
+  "accesskit",
+  "accesskit_consumer",
+  "hashbrown 0.17.1",
+- "objc2 0.5.2",
++ "objc2 0.5.3",
+  "objc2-foundation 0.2.2",
+  "objc2-ui-kit 0.2.2",
+ ]
+ 
+ [[package]]
+ name = "accesskit_macos"
+-version = "0.27.1"
++version = "0.27.2"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "5701624bf6a11efb6d4c8e922bf44126ed96250e5faa9a7a0468c979635839a4"
++checksum = "123828ceeec755b05255e3976cb0852993202de98a0626c97dd8d34246991f84"
+ dependencies = [
+  "accesskit",
+  "accesskit_consumer",
+  "hashbrown 0.17.1",
+- "objc2 0.5.2",
++ "objc2 0.5.3",
+  "objc2-app-kit 0.2.2",
+  "objc2-foundation 0.2.2",
+ ]
+ 
+ [[package]]
+ name = "accesskit_unix"
+-version = "0.24.0"
++version = "0.24.1"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "202f24df034a7476d07b7f74284de84f6d62aabd858dbe7ee9cad3b7ad6f8f9d"
++checksum = "30d5192871228c54f1b0fb4a85cef000e11a3804f25d2165f14afa0daa67f3f6"
+ dependencies = [
+  "accesskit",
+  "accesskit_atspi_common",
+@@ -85,9 +85,9 @@
+ 
+ [[package]]
+ name = "accesskit_windows"
+-version = "0.35.1"
++version = "0.35.2"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "ce63f35d6bdcf59f26b76b3379063f738e6412cef46999cc772d46aa3de35adb"
++checksum = "498668b90da9995302a0055aaecad4756932333da2ddef6baee1c00844c430fc"
+ dependencies = [
+  "accesskit",
+  "accesskit_consumer",
+@@ -99,9 +99,9 @@
+ 
+ [[package]]
+ name = "accesskit_winit"
+-version = "0.34.1"
++version = "0.34.2"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "ee96dd150375c05912d8a473f98c2fb155fb3234fac88292d396548a2460fa77"
++checksum = "cd4ab4437b520ff03088fbe48676a11e7d44a929535e64b31432c1073e48dbcc"
+ dependencies = [
+  "accesskit",
+  "accesskit_ios",
+@@ -120,9 +120,9 @@
+ 
+ [[package]]
+ name = "aes"
+-version = "0.9.3"
++version = "0.9.4"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "35f0f96ce78e38c3dc6d8948aa8163d06385be74000f3c7a95bf1eef35d3ea32"
++checksum = "fc0fc36d7440d015b45468ba08a21e80e056ebbd014c611c6298bb7503e04bd1"
+ dependencies = [
+  "cipher",
+  "cpubits",
+@@ -238,7 +238,7 @@
+  "objc2-foundation 0.3.2",
+  "parking_lot",
+  "percent-encoding",
+- "windows-sys 0.52.0",
++ "windows-sys 0.61.2",
+  "wl-clipboard-rs",
+  "x11rb",
+ ]
+@@ -296,9 +296,9 @@
+ 
+ [[package]]
+ name = "async-executor"
+-version = "1.14.0"
++version = "1.14.1"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "c96bf972d85afc50bf5ab8fe2d54d1586b4e0b46c97c50a0c9e71e2f7bcd812a"
++checksum = "f426a31126c735126297bc5ea7a521263c9faff4f63ca415267ee625651c4f37"
+ dependencies = [
+  "async-task",
+  "concurrent-queue",
+@@ -328,9 +328,9 @@
+ 
+ [[package]]
+ name = "async-lock"
+-version = "3.4.2"
++version = "3.5.0"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "290f7f2596bd5b78a9fec8088ccd89180d7f9f55b94b0576823bbbdc72ee8311"
++checksum = "0876700b0d007ad25d5508865a4259c3af9af6d296bf663a0d586d0bc3369f6f"
+ dependencies = [
+  "event-listener",
+  "event-listener-strategy",
+@@ -357,13 +357,13 @@
+ 
+ [[package]]
+ name = "async-recursion"
+-version = "1.1.1"
++version = "1.2.0"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "3b43422f69d8ff38f95f1b2bb76517c91589a924d1559a0e935d7c8ce0274c11"
++checksum = "4f8abc12baad266b1c8cec146854c195b5864b4221d4b2ca7296a7ae82d9e451"
+ dependencies = [
+  "proc-macro2",
+  "quote",
+- "syn 2.0.119",
++ "syn 3.0.10",
+ ]
+ 
+ [[package]]
+@@ -398,7 +398,7 @@
+ dependencies = [
+  "proc-macro2",
+  "quote",
+- "syn 3.0.6",
++ "syn 3.0.10",
+ ]
+ 
+ [[package]]
+@@ -452,9 +452,9 @@
+ 
+ [[package]]
+ name = "aws-lc-rs"
+-version = "1.18.2"
++version = "1.19.0"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "faac5829c2b74c28f830747e7818ccfb684261b5f48a1118b1e2a13d36dfab13"
++checksum = "048006790404103c488e6c5616b3e7e702a71292aadda08e8f7698a9e0d2eb53"
+ dependencies = [
+  "aws-lc-sys",
+  "untrusted 0.7.1",
+@@ -463,9 +463,9 @@
+ 
+ [[package]]
+ name = "aws-lc-sys"
+-version = "0.46.0"
++version = "0.47.0"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "f1622d8446a2d4b2ce0c7eefc73dd43a99779028d5ee5c2dd8073a658ba8a2bc"
++checksum = "8bfbe32ac36b3c428696ce315464181bc4029d689fd58e3f2a4e58c252242f52"
+ dependencies = [
+  "cc",
+  "cmake",
+@@ -513,7 +513,7 @@
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "56d87354e4229f54a44f7bf2435906a4656dba36026ab6eaca629a2c436a691c"
+ dependencies = [
+- "bit-vec 0.10.1",
++ "bit-vec 0.10.2",
+ ]
+ 
+ [[package]]
+@@ -524,9 +524,9 @@
+ 
+ [[package]]
+ name = "bit-vec"
+-version = "0.10.1"
++version = "0.10.2"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "5727b15fa97d4f4fee0a3b7c3d550ed0269f54329207b86388de918604e31269"
++checksum = "72503af1e72be411d74ca45cd6b309878fcb35354e252fc2a3a8bda3a97082a0"
+ dependencies = [
+  "borsh",
+  "serde",
+@@ -580,7 +580,7 @@
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "2c132eebf10f5cad5289222520a4a058514204aed6d791f1cf4fe8088b82d15f"
+ dependencies = [
+- "objc2 0.5.2",
++ "objc2 0.5.3",
+ ]
+ 
+ [[package]]
+@@ -713,7 +713,7 @@
+  "cow-utils",
+  "proc-macro2",
+  "quote",
+- "syn 3.0.6",
++ "syn 3.0.10",
+  "synstructure",
+ ]
+ 
+@@ -770,7 +770,7 @@
+  "proc-macro-crate",
+  "proc-macro2",
+  "quote",
+- "syn 3.0.6",
++ "syn 3.0.10",
+ ]
+ 
+ [[package]]
+@@ -841,7 +841,7 @@
+ dependencies = [
+  "proc-macro2",
+  "quote",
+- "syn 3.0.6",
++ "syn 3.0.10",
+ ]
+ 
+ [[package]]
+@@ -872,14 +872,13 @@
+ 
+ [[package]]
+ name = "calloop"
+-version = "0.14.4"
++version = "0.14.5"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "4dbf9978365bac10f54d1d4b04f7ce4427e51f71d61f2fe15e3fed5166474df7"
++checksum = "43b32313e937c8721c9d17ee9bf60699a6402b4b7c2cb6ac1bee0ffcaa4b4e5e"
+ dependencies = [
+  "bitflags 2.13.2",
+  "polling",
+  "rustix 1.1.6",
+- "slab",
+  "tracing",
+ ]
+ 
+@@ -901,7 +900,7 @@
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "138efcf0940a02ebf0cc8d1eff41a1682a46b431630f4c52450d6265876021fa"
+ dependencies = [
+- "calloop 0.14.4",
++ "calloop 0.14.5",
+  "rustix 1.1.6",
+  "wayland-backend",
+  "wayland-client",
+@@ -918,9 +917,9 @@
+ 
+ [[package]]
+ name = "cc"
+-version = "1.5.1"
++version = "1.11.1"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "f360145194ee8e21db5ee7f3fcd4fe52210864c75c985dae33218202c8bbe040"
++checksum = "4ff2a8126fff0f8c839080d619675a585e61720bb12d2baceae45769fd66f155"
+ dependencies = [
+  "find-msvc-tools",
+  "jobserver",
+@@ -986,9 +985,9 @@
+ 
+ [[package]]
+ name = "clipboard-win"
+-version = "5.4.1"
++version = "5.4.3"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "bde03770d3df201d4fb868f2c9c59e66a3e4e2bd06692a0fe701e7103c7e84d4"
++checksum = "052af7878466feccda12ba7a6a67d019d712f296809559b47c12c8cc196d3a9a"
+ dependencies = [
+  "error-code",
+ ]
+@@ -1069,9 +1068,9 @@
+ 
+ [[package]]
+ name = "combine"
+-version = "4.6.8"
++version = "4.6.9"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "cfc320937d09e6de266b31b9afb480f197d7a861be86be7cb2ea7e5d1bfffc5e"
++checksum = "4356eba6976435498d05a311ee9fc486da3bc81c200d3f0d7dd9703b41913f92"
+ dependencies = [
+  "bytes",
+  "memchr",
+@@ -1094,9 +1093,18 @@
+ 
+ [[package]]
+ name = "const-oid"
+-version = "0.10.2"
++version = "0.10.3"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "a6ef517f0926dd24a1582492c791b6a4818a4d94e789a334894aa15b0d12f55c"
++checksum = "be95d4a884358a21a199689323c29e9256b4a1b315e22f183d155422041d3a9a"
++
++[[package]]
++name = "constant_time_eq"
++version = "0.6.1"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "9eb6feb175df65d0a3ccd3e73484e940d0ac664e8034f0519fd49a93db3071d9"
++dependencies = [
++ "rustversion",
++]
+ 
+ [[package]]
+ name = "core-foundation"
+@@ -1250,7 +1258,7 @@
+  "miniz_oxide 0.9.1",
+  "roxmltree 0.21.2",
+  "tempfile",
+- "winprint 0.2.1 (git+https://github.com/storytold/winprint.rs?rev=bc06a7c48b768eb27a828c7986f6d2868b245ee0)",
++ "winprint",
+  "winsafe",
+ ]
+ 
+@@ -1343,9 +1351,9 @@
+ 
+ [[package]]
+ name = "crc32fast"
+-version = "1.5.2"
++version = "1.5.5"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "01a7799fd6b852db0e61728dde9a204c423b44d689dbd432522543614b490e78"
++checksum = "2b929dd2a135771f40afabd1073f85eed59c800b7c61901e5c254270497dad64"
+ dependencies = [
+  "cfg-if",
+ ]
+@@ -1404,9 +1412,9 @@
+ 
+ [[package]]
+ name = "crypto-bigint"
+-version = "0.7.6"
++version = "0.7.11"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "6bb08299a6046833a879ace115697f12fd2bd6c8d3e93c909ffc9e0738e7cae0"
++checksum = "914c195c4d7fbc5ed7f88d14cbf85914d5c664967658d43404b263913a477e82"
+ dependencies = [
+  "cpubits",
+  "ctutils",
+@@ -1452,9 +1460,9 @@
+ 
+ [[package]]
+ name = "ctutils"
+-version = "0.4.5"
++version = "0.4.8"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "38d28fb6aa7dd680b3ffd1a3e64e115c177bdba63c0ae7f9cd48129ff05c4fa0"
++checksum = "261af4dc7a06ea8a527a8717d8cbba3417530d6ea14e1edb3de6b67806be474f"
+ dependencies = [
+  "cmov",
+  "subtle",
+@@ -1528,11 +1536,11 @@
+ 
+ [[package]]
+ name = "der"
+-version = "0.8.2"
++version = "0.8.3"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "a878c850e9e421b20262e9b41f9c860e4785fa07541c266b62ff9d1ef998a80a"
++checksum = "6a996a108feb8b427a6e12fcf6af4aa83409b79d72c15337d7741368131ee004"
+ dependencies = [
+- "const-oid 0.10.2",
++ "const-oid 0.10.3",
+  "pem-rfc7468 1.0.0",
+  "zeroize",
+ ]
+@@ -1550,9 +1558,9 @@
+ 
+ [[package]]
+ name = "deranged"
+-version = "0.5.8"
++version = "0.5.9"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "7cd812cc2bc1d69d4764bd80df88b4317eaef9e773c75226407d9bc0876b211c"
++checksum = "9e9de72ce2ad1f90dc62fa25f0f430ef85eb4b0d8fa0be4f30373bc40a21d28e"
+ 
+ [[package]]
+ name = "des"
+@@ -1580,7 +1588,7 @@
+ checksum = "f1dd6dbb5841937940781866fa1281a1ff7bd3bf827091440879f9994983d5c2"
+ dependencies = [
+  "block-buffer 0.12.1",
+- "const-oid 0.10.2",
++ "const-oid 0.10.3",
+  "crypto-common 0.2.2",
+  "ctutils",
+ ]
+@@ -1611,7 +1619,7 @@
+ dependencies = [
+  "proc-macro2",
+  "quote",
+- "syn 3.0.6",
++ "syn 3.0.10",
+ ]
+ 
+ [[package]]
+@@ -1685,12 +1693,12 @@
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "c0681a4fc24c767085329728d8dfba959af91228aa4610cca4f8ce317ba46ae0"
+ dependencies = [
+- "der 0.8.2",
++ "der 0.8.3",
+  "digest 0.11.3",
+  "elliptic-curve",
+  "rfc6979",
+  "signature 3.0.0",
+- "spki 0.8.0",
++ "spki 0.8.1",
+  "zeroize",
+ ]
+ 
+@@ -1881,15 +1889,15 @@
+ 
+ [[package]]
+ name = "either"
+-version = "1.18.0"
++version = "1.19.0"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "252afb9ae5eaa683babdc6a068b3f5726eb19e05070c731f9b2a23a7c3e8ed34"
++checksum = "0e9c71c2167ca323c882b99918929403426e2373ea17242ff5653e0d5e1058be"
+ 
+ [[package]]
+ name = "elliptic-curve"
+-version = "0.14.1"
++version = "0.14.3"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "9d65aa39b3a5c1c9c1b745c9a019234bb7a21b77abcb4f4d266d706e2d577d65"
++checksum = "900f37e7e18d74a2347389af6cd69e3a30d5cc9e697f40004865679aa75e9c7c"
+ dependencies = [
+  "base16ct",
+  "crypto-bigint",
+@@ -1916,9 +1924,9 @@
+ 
+ [[package]]
+ name = "encoding_rs"
+-version = "0.8.42"
++version = "0.8.44"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "8e985e0451871ad22fb8d2b6b076e2028a502a0d3950998c2c5c0a4f9b5d9679"
++checksum = "89253175e704ab869b04f9db224d38630e0211a53841a79181deae0889e169f5"
+ dependencies = [
+  "cfg-if",
+  "core_detect",
+@@ -1951,7 +1959,7 @@
+ dependencies = [
+  "proc-macro2",
+  "quote",
+- "syn 3.0.6",
++ "syn 3.0.10",
+ ]
+ 
+ [[package]]
+@@ -1996,7 +2004,7 @@
+  "ecolor",
+  "emath",
+  "epaint_default_fonts",
+- "font-types 0.12.5",
++ "font-types 0.12.7",
+  "harfrust",
+  "log",
+  "nohash-hasher",
+@@ -2040,18 +2048,18 @@
+ 
+ [[package]]
+ name = "equivalent"
+-version = "1.0.2"
++version = "1.0.3"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "877a4ace8713b0bcf2a4e7eec82529c029f1d0619886d18145fea96c3ffe5c0f"
++checksum = "00d174d5400e5e8fd687ad1049e2f578285fa914201b1af7e8b112a4546bd826"
+ 
+ [[package]]
+ name = "errno"
+-version = "0.3.14"
++version = "0.3.15"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "39cab71617ae0d63f51a36d69f866391735b51691dbda63cf6f96d042b63efeb"
++checksum = "e35d6e78f4cebb90e51d543db8fe41528851d6deeef6ef21ebd4bfdc1e784776"
+ dependencies = [
+  "libc",
+- "windows-sys 0.52.0",
++ "windows-sys 0.61.2",
+ ]
+ 
+ [[package]]
+@@ -2150,9 +2158,9 @@
+ 
+ [[package]]
+ name = "find-msvc-tools"
+-version = "0.1.14"
++version = "0.1.15"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "aedcfb3409746eddb02b9e19ebda1c3394f759a152e48ee875a0844d1b955484"
++checksum = "1c66915cc5391097de7a2b0b972e8505aa33c0df401fd3a6811dbdb32881ba48"
+ 
+ [[package]]
+ name = "fixed_decimal"
+@@ -2167,9 +2175,9 @@
+ 
+ [[package]]
+ name = "fixedbitset"
+-version = "0.5.7"
++version = "0.5.9"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "1d674e81391d1e1ab681a28d99df07927c6d4aa5b027d7da16ba32d1d21ecd99"
++checksum = "5905ec755cc8386d7928353e4d356d2be3e89e81e5ca01fe630a1ca4d08dc175"
+ 
+ [[package]]
+ name = "flagset"
+@@ -2189,9 +2197,9 @@
+ 
+ [[package]]
+ name = "flate2"
+-version = "1.1.10"
++version = "1.1.11"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "6e634e2e0ebac1ee034020da1ca582e17ffe4e0f5e985823721e168928136dcb"
++checksum = "626d4928326b646e70f65ed36fc7cf9f206bdb68a0019ee7c6b4709da4e084c4"
+ dependencies = [
+  "crc32fast",
+  "miniz_oxide 0.9.1",
+@@ -2266,9 +2274,9 @@
+ 
+ [[package]]
+ name = "font-types"
+-version = "0.12.5"
++version = "0.12.7"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "b8eb065f3251655b3c90e22e5e363f310fc5332fb3402e37bbc94752283248f6"
++checksum = "835ae9d781464a79026cde387f9cbc650c9a4909d7cf7e658b127e3c35d2f35d"
+ dependencies = [
+  "bytemuck",
+  "serde",
+@@ -2301,7 +2309,7 @@
+ dependencies = [
+  "proc-macro2",
+  "quote",
+- "syn 3.0.6",
++ "syn 3.0.10",
+ ]
+ 
+ [[package]]
+@@ -2381,7 +2389,7 @@
+ dependencies = [
+  "proc-macro2",
+  "quote",
+- "syn 3.0.6",
++ "syn 3.0.10",
+ ]
+ 
+ [[package]]
+@@ -3051,9 +3059,9 @@
+ 
+ [[package]]
+ name = "icu_pattern"
+-version = "0.5.0"
++version = "0.5.1"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "2b3db611446bd92c246b03e4aa0bafa71ddb194af431ddbb42b9d70e4bfce1a0"
++checksum = "bc43ce0e76ee8cb0482dc6e2dbb9b76278e8038f45daabf2a2877577e2ceb18f"
+ dependencies = [
+  "displaydoc",
+  "either",
+@@ -3217,9 +3225,9 @@
+ 
+ [[package]]
+ name = "inout"
+-version = "0.2.2"
++version = "0.2.6"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "4250ce6452e92010fdf7268ccc5d14faa80bb12fc741938534c58f16804e03c7"
++checksum = "3a580c13f0ffc335ef42dd3f6b1a41b726051c5e1656d9a3aa6fddb3c5dfbbf9"
+ dependencies = [
+  "block-padding",
+  "hybrid-array",
+@@ -3248,9 +3256,9 @@
+ 
+ [[package]]
+ name = "itoa"
+-version = "1.0.18"
++version = "1.0.19"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "8f42a60cbdf9a97f5d2305f08a87dc4e09308d1276d28c869c684d7777685682"
++checksum = "3bd1574e617a9a6c1f8f8181bd7e841e1f20e4277607ef28945765188d6284d4"
+ 
+ [[package]]
+ name = "jni"
+@@ -3322,9 +3330,9 @@
+ 
+ [[package]]
+ name = "js-sys"
+-version = "0.3.106"
++version = "0.3.107"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "7883d941dae510fb2d978fc3fe018c71c9e2892fd38854de3e8b92c2e5ad9cc5"
++checksum = "8dc09d2154098bbf4ef54eab6b117a3c24cbbffe94046b16ee6d6d4510584d3a"
+ dependencies = [
+  "cfg-if",
+  "futures-util",
+@@ -3403,9 +3411,9 @@
+ 
+ [[package]]
+ name = "libc"
+-version = "0.2.189"
++version = "0.2.191"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "3eaf3ede3fee6db1a4c2ee091bf8a8b4dccdc6d17f656fb07896ee72867612f2"
++checksum = "65cd87c9a6d60536580b316ad985726104730a5151c99845f2490428ef91240a"
+ 
+ [[package]]
+ name = "libloading"
+@@ -3432,7 +3440,7 @@
+  "bitflags 2.13.2",
+  "libc",
+  "plain",
+- "redox_syscall 0.9.4",
++ "redox_syscall 0.9.5",
+ ]
+ 
+ [[package]]
+@@ -3464,9 +3472,9 @@
+ 
+ [[package]]
+ name = "litrs"
+-version = "1.0.0"
++version = "1.0.1"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "11d3d7f243d5c5a8b9bb5d6dd2b1602c0cb0b9db1621bafc7ed66e35ff9fe092"
++checksum = "4744e383959f0db86ede514b809b1c53251889093803c05267acc7d4e7030d70"
+ 
+ [[package]]
+ name = "lock_api"
+@@ -3479,9 +3487,9 @@
+ 
+ [[package]]
+ name = "log"
+-version = "0.4.34"
++version = "0.4.35"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "f9f8bd3e56ce4dfc153cf470fffbfa98c7620958b312ca5c3a4b8d5181fd13c6"
++checksum = "5d15f86d12da44cd8d4ec3c73984537eb7f4cadcb9776a575a0a8a05ca11005c"
+ 
+ [[package]]
+ name = "lopdf"
+@@ -3534,9 +3542,9 @@
+ 
+ [[package]]
+ name = "memmap2"
+-version = "0.9.11"
++version = "0.9.12"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "d1219ed1b7f229ee7104d281dd01d6802fe28bb6e95d292942c4daacdeb798c0"
++checksum = "6b0ca1155a9ecc25aa12e8313a119f32edf0255fea2f44839c4ac0a12b2ac157"
+ dependencies = [
+  "libc",
+ ]
+@@ -3552,9 +3560,9 @@
+ 
+ [[package]]
+ name = "mime"
+-version = "0.3.17"
++version = "0.3.18"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "6877bb514081ee2a7ff5ef9de3281f14a4dd4bceac4c09388074a6b5df8a139a"
++checksum = "d5848f5a9e8117cf94f2f90faac24a87ff81600ff8628c1e3deaab572e76bfa1"
+ 
+ [[package]]
+ name = "miniz_oxide"
+@@ -3623,9 +3631,9 @@
+ 
+ [[package]]
+ name = "naga"
+-version = "30.0.1"
++version = "30.0.2"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "a616d2fb8c89516ac2723a581f69d6c18576046bed761bd6b305e5618e6ae130"
++checksum = "fd0dd362bf26c0ffdd143df6da66a25d287e196eff482f117771010b207ad163"
+ dependencies = [
+  "arrayvec",
+  "bit-set 0.10.0",
+@@ -3649,9 +3657,9 @@
+ 
+ [[package]]
+ name = "naga-types"
+-version = "30.0.1"
++version = "30.0.2"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "590afbf58a6f4f62873cd5cff4468061844bafa1cdf399cc954537c22d768d49"
++checksum = "14474170feb673cfb18b3565111a9869797cc1d290fb9ec969c53f5e1e231c6d"
+ dependencies = [
+  "hashbrown 0.17.1",
+  "indexmap",
+@@ -3786,9 +3794,9 @@
+ 
+ [[package]]
+ name = "num_threads"
+-version = "0.1.7"
++version = "0.1.8"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "5c7398b9c8b70908f6371f47ed36737907c87c52af34c268fed0bf0ceb92ead9"
++checksum = "cabcc654086861f9e1bc5115258de62ef92c79b20f4615a1b0cc57c4e82027d4"
+ dependencies = [
+  "libc",
+ ]
+@@ -3801,9 +3809,9 @@
+ 
+ [[package]]
+ name = "objc2"
+-version = "0.5.2"
++version = "0.5.3"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "46a785d4eeff09c14c487497c162e92766fbb3e4059a71840cecc03d9a50b804"
++checksum = "19d5490aaf8f1d7cf7688dfa9b0ce07900e168852c45cd2c03f534dfd27cfd0b"
+ dependencies = [
+  "objc-sys",
+  "objc2-encode",
+@@ -3827,7 +3835,7 @@
+  "bitflags 2.13.2",
+  "block2 0.5.1",
+  "libc",
+- "objc2 0.5.2",
++ "objc2 0.5.3",
+  "objc2-core-data",
+  "objc2-core-image",
+  "objc2-foundation 0.2.2",
+@@ -3856,7 +3864,7 @@
+ dependencies = [
+  "bitflags 2.13.2",
+  "block2 0.5.1",
+- "objc2 0.5.2",
++ "objc2 0.5.3",
+  "objc2-core-location",
+  "objc2-foundation 0.2.2",
+ ]
+@@ -3868,7 +3876,7 @@
+ checksum = "a5ff520e9c33812fd374d8deecef01d4a840e7b41862d849513de77e44aa4889"
+ dependencies = [
+  "block2 0.5.1",
+- "objc2 0.5.2",
++ "objc2 0.5.3",
+  "objc2-foundation 0.2.2",
+ ]
+ 
+@@ -3880,7 +3888,7 @@
+ dependencies = [
+  "bitflags 2.13.2",
+  "block2 0.5.1",
+- "objc2 0.5.2",
++ "objc2 0.5.3",
+  "objc2-foundation 0.2.2",
+ ]
+ 
+@@ -3915,7 +3923,7 @@
+ checksum = "55260963a527c99f1819c4f8e3b47fe04f9650694ef348ffd2227e8196d34c80"
+ dependencies = [
+  "block2 0.5.1",
+- "objc2 0.5.2",
++ "objc2 0.5.3",
+  "objc2-foundation 0.2.2",
+  "objc2-metal 0.2.2",
+ ]
+@@ -3927,7 +3935,7 @@
+ checksum = "000cfee34e683244f284252ee206a27953279d370e309649dc3ee317b37e5781"
+ dependencies = [
+  "block2 0.5.1",
+- "objc2 0.5.2",
++ "objc2 0.5.3",
+  "objc2-contacts",
+  "objc2-foundation 0.2.2",
+ ]
+@@ -3948,7 +3956,7 @@
+  "block2 0.5.1",
+  "dispatch",
+  "libc",
+- "objc2 0.5.2",
++ "objc2 0.5.3",
+ ]
+ 
+ [[package]]
+@@ -3981,7 +3989,7 @@
+ checksum = "a1a1ae721c5e35be65f01a03b6d2ac13a54cb4fa70d8a5da293d7b0020261398"
+ dependencies = [
+  "block2 0.5.1",
+- "objc2 0.5.2",
++ "objc2 0.5.3",
+  "objc2-app-kit 0.2.2",
+  "objc2-foundation 0.2.2",
+ ]
+@@ -3994,7 +4002,7 @@
+ dependencies = [
+  "bitflags 2.13.2",
+  "block2 0.5.1",
+- "objc2 0.5.2",
++ "objc2 0.5.3",
+  "objc2-foundation 0.2.2",
+ ]
+ 
+@@ -4018,7 +4026,7 @@
+ dependencies = [
+  "bitflags 2.13.2",
+  "block2 0.5.1",
+- "objc2 0.5.2",
++ "objc2 0.5.3",
+  "objc2-foundation 0.2.2",
+  "objc2-metal 0.2.2",
+ ]
+@@ -4043,7 +4051,7 @@
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "0a684efe3dec1b305badae1a28f6555f6ddd3bb2c2267896782858d5a78404dc"
+ dependencies = [
+- "objc2 0.5.2",
++ "objc2 0.5.3",
+  "objc2-foundation 0.2.2",
+ ]
+ 
+@@ -4055,7 +4063,7 @@
+ dependencies = [
+  "bitflags 2.13.2",
+  "block2 0.5.1",
+- "objc2 0.5.2",
++ "objc2 0.5.3",
+  "objc2-cloud-kit",
+  "objc2-core-data",
+  "objc2-core-image",
+@@ -4087,7 +4095,7 @@
+ checksum = "44fa5f9748dbfe1ca6c0b79ad20725a11eca7c2218bceb4b005cb1be26273bfe"
+ dependencies = [
+  "block2 0.5.1",
+- "objc2 0.5.2",
++ "objc2 0.5.3",
+  "objc2-foundation 0.2.2",
+ ]
+ 
+@@ -4099,7 +4107,7 @@
+ dependencies = [
+  "bitflags 2.13.2",
+  "block2 0.5.1",
+- "objc2 0.5.2",
++ "objc2 0.5.3",
+  "objc2-core-location",
+  "objc2-foundation 0.2.2",
+ ]
+@@ -4133,9 +4141,9 @@
+ 
+ [[package]]
+ name = "openssl-probe"
+-version = "0.2.1"
++version = "0.2.2"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "7c87def4c32ab89d880effc9e097653c8da5d6ef28e6b539d313baaacfbafcbe"
++checksum = "7e036b411754132fd6b74e94b74e9a13c5cf606fa93d1885c35860d3060820b1"
+ 
+ [[package]]
+ name = "orbclient"
+@@ -4149,9 +4157,9 @@
+ 
+ [[package]]
+ name = "ordered-float"
+-version = "5.5.0"
++version = "5.5.1"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "8c7c9e0d9b23589f26070720bac724174bfec1083e82f7854cdd0267518343c0"
++checksum = "7f59006ce1e204c30956638535b74d317bca99477b9356dfaec54c37f6f600ab"
+ dependencies = [
+  "num-traits",
+ ]
+@@ -4173,7 +4181,7 @@
+ checksum = "7d8fae84b431384b68627d0f9b3b1245fcf9f46f6c0e3dc902e9dce64edd1967"
+ dependencies = [
+  "libc",
+- "windows-sys 0.52.0",
++ "windows-sys 0.61.2",
+ ]
+ 
+ [[package]]
+@@ -4672,7 +4680,7 @@
+  "pdfcraft-render",
+  "skrifa 0.44.0",
+  "thiserror 2.0.21",
+- "winprint 0.2.1 (git+https://github.com/storytold/winprint.rs?rev=5f80b9baf6b58937c401656634e42d33f00ddf49)",
++ "winprint",
+ ]
+ 
+ [[package]]
+@@ -5066,12 +5074,12 @@
+ 
+ [[package]]
+ name = "pkcs1"
+-version = "0.8.0-rc.4"
++version = "0.8.0"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "986d2e952779af96ea048f160fd9194e1751b4faea78bcf3ceb456efe008088e"
++checksum = "6250dd7321adbe93d12b750aee0ced159fd13e77f625edcdf1cb6f83cd99f650"
+ dependencies = [
+- "der 0.8.2",
+- "spki 0.8.0",
++ "der 0.8.3",
++ "spki 0.8.1",
+ ]
+ 
+ [[package]]
+@@ -5080,8 +5088,8 @@
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "451913da69c775a56034ea8d9003d27ee8948e12443eae7c038ba100a4f21cb7"
+ dependencies = [
+- "der 0.8.2",
+- "spki 0.8.0",
++ "der 0.8.3",
++ "spki 0.8.1",
+ ]
+ 
+ [[package]]
+@@ -5208,9 +5216,9 @@
+ 
+ [[package]]
+ name = "powerfmt"
+-version = "0.2.0"
++version = "0.2.1"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "439ee305def115ba05938db6eb1644ff94165c5ab5e9420d1c1bcedbba909391"
++checksum = "4a6394b9e965e73d0a289ee54f589087e2c676aedf60885baf52c76b771e4958"
+ 
+ [[package]]
+ name = "presser"
+@@ -5300,7 +5308,7 @@
+ checksum = "b8530004ccb15eae51c7e40009fbe317f341f804db54dc033eec1c50be28cfa0"
+ dependencies = [
+  "bit-set 0.11.1",
+- "bit-vec 0.10.1",
++ "bit-vec 0.10.2",
+  "bitflags 2.13.2",
+  "chacha20",
+  "core_detect",
+@@ -5403,7 +5411,7 @@
+  "once_cell",
+  "socket2",
+  "tracing",
+- "windows-sys 0.52.0",
++ "windows-sys 0.61.2",
+ ]
+ 
+ [[package]]
+@@ -5544,7 +5552,7 @@
+ checksum = "046a7d674daf459825b32f5062056d6882db0d2f5a479fbd76ccfc870ac18709"
+ dependencies = [
+  "bytemuck",
+- "font-types 0.12.5",
++ "font-types 0.12.7",
+  "once_cell",
+ ]
+ 
+@@ -5555,7 +5563,7 @@
+ checksum = "d5a0cf4bb6cbce4c29756270d189a5e400ac05e91192161d83a0bcb6e68492e8"
+ dependencies = [
+  "bytemuck",
+- "font-types 0.12.5",
++ "font-types 0.12.7",
+  "once_cell",
+ ]
+ 
+@@ -5579,9 +5587,9 @@
+ 
+ [[package]]
+ name = "redox_syscall"
+-version = "0.9.4"
++version = "0.9.5"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "737970939a87c6fa31e7acad13307bccbb017a073b695b6089a2c484f929e20e"
++checksum = "580c875845b41ecb1564ad1ae4703044cef774145e3d7a94dc2b3fa7c97868fd"
+ dependencies = [
+  "bitflags 2.13.2",
+ ]
+@@ -5758,12 +5766,11 @@
+ 
+ [[package]]
+ name = "ron"
+-version = "0.12.2"
++version = "0.12.3"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "81116b9531d61eabc41aeb228e4b6b2435bcca3233b98cf3b3077d4e6e9debb3"
++checksum = "97b3fe97c18ff24299ea56f802c5693eb34266fb0bc8317f4e101debc8a3ceaf"
+ dependencies = [
+  "bitflags 2.13.2",
+- "once_cell",
+  "serde",
+  "serde_derive",
+  "typeid",
+@@ -5791,7 +5798,7 @@
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "30b2aa4ba0d89f73d1e332df05be0eeab8840351c36ca5654341dfdb57bb3caf"
+ dependencies = [
+- "const-oid 0.10.2",
++ "const-oid 0.10.3",
+  "crypto-bigint",
+  "crypto-primes",
+  "digest 0.11.3",
+@@ -5963,7 +5970,7 @@
+  "errno",
+  "libc",
+  "linux-raw-sys 0.12.1",
+- "windows-sys 0.52.0",
++ "windows-sys 0.61.2",
+ ]
+ 
+ [[package]]
+@@ -6007,9 +6014,9 @@
+ 
+ [[package]]
+ name = "rustls-pki-types"
+-version = "1.15.1"
++version = "1.16.0"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "2f4925028c7eb5d1fcdaf196971378ed9d2c1c4efc7dc5d011256f76c99c0a96"
++checksum = "102f35f7de7b06d8c61f1cff6592f5253e0dea431c74867aad5dfd70f44663fb"
+ dependencies = [
+  "web-time",
+  "zeroize",
+@@ -6033,7 +6040,7 @@
+  "security-framework",
+  "security-framework-sys",
+  "webpki-root-certs",
+- "windows-sys 0.52.0",
++ "windows-sys 0.61.2",
+ ]
+ 
+ [[package]]
+@@ -6044,9 +6051,9 @@
+ 
+ [[package]]
+ name = "rustls-webpki"
+-version = "0.103.16"
++version = "0.103.17"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "4443b1b6d39d7c663139942cc4558262562d2c84123bb6282ef177009ca8b281"
++checksum = "e3a0760a887c14823fca5a1c970b01d47c328c696c0c64829d1df50e8f853fd5"
+ dependencies = [
+  "aws-lc-rs",
+  "ring",
+@@ -6095,9 +6102,9 @@
+ 
+ [[package]]
+ name = "schannel"
+-version = "0.1.29"
++version = "0.1.30"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "91c1b7e4904c873ef0710c1f407dde2e6287de2bebc1bbbf7d430bb7cbffd939"
++checksum = "9cb23c424d8ee841bb4d813677ca237e2a610067d594fec130f87d6093495ab5"
+ dependencies = [
+  "windows-sys 0.61.2",
+ ]
+@@ -6122,7 +6129,7 @@
+ dependencies = [
+  "base16ct",
+  "ctutils",
+- "der 0.8.2",
++ "der 0.8.3",
+  "hybrid-array",
+  "subtle",
+  "zeroize",
+@@ -6200,7 +6207,7 @@
+ dependencies = [
+  "proc-macro2",
+  "quote",
+- "syn 3.0.6",
++ "syn 3.0.10",
+ ]
+ 
+ [[package]]
+@@ -6235,14 +6242,14 @@
+ dependencies = [
+  "proc-macro2",
+  "quote",
+- "syn 3.0.6",
++ "syn 3.0.10",
+ ]
+ 
+ [[package]]
+ name = "serde_spanned"
+-version = "1.1.1"
++version = "1.1.3"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "6662b5879511e06e8999a8a235d848113e942c9124f211511b16466ee2995f26"
++checksum = "9c187e0a369471c550af028cba56d4f4fa2a489ad28151ae95a4d340a2a8b782"
+ dependencies = [
+  "serde_core",
+ ]
+@@ -6612,9 +6619,9 @@
+ 
+ [[package]]
+ name = "smallvec"
+-version = "1.16.2"
++version = "1.16.5"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "f9395f0f0eee849a9b707b2f06bb92a6a422090e2123bb2ef8e87a0e61892a8e"
++checksum = "149309498a5f7334b12ddae0cad8aba81ce785fe91755068867e017cf98fee46"
+ dependencies = [
+  "serde",
+ ]
+@@ -6651,7 +6658,7 @@
+ checksum = "0512da38f5e2b31201a93524adb8d3136276fa4fe4aafab4e1f727a82b534cc0"
+ dependencies = [
+  "bitflags 2.13.2",
+- "calloop 0.14.4",
++ "calloop 0.14.5",
+  "calloop-wayland-source 0.4.1",
+  "cursor-icon",
+  "libc",
+@@ -6722,12 +6729,12 @@
+ 
+ [[package]]
+ name = "spki"
+-version = "0.8.0"
++version = "0.8.1"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "1d9efca8738c78ee9484207732f728b1ef517bbb1833d6fc0879ca898a522f6f"
++checksum = "7ef958a98b9d5da290cfc78946e9f3e61e1e62a18db0d92cac0b83cc161491a9"
+ dependencies = [
+  "base64ct",
+- "der 0.8.2",
++ "der 0.8.3",
+ ]
+ 
+ [[package]]
+@@ -6828,9 +6835,9 @@
+ 
+ [[package]]
+ name = "syn"
+-version = "3.0.6"
++version = "3.0.10"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "8593e8e72159ed2257d083c7a454a85cbf854f37a0966d8d483aff8c8a3ebcee"
++checksum = "4ae9ccbea3a7b0b09443036490c8f34a8b1b760fd345e5c0dae0aac718faea79"
+ dependencies = [
+  "proc-macro2",
+  "quote",
+@@ -6854,7 +6861,7 @@
+ dependencies = [
+  "proc-macro2",
+  "quote",
+- "syn 3.0.6",
++ "syn 3.0.10",
+ ]
+ 
+ [[package]]
+@@ -6923,7 +6930,7 @@
+  "getrandom 0.4.3",
+  "once_cell",
+  "rustix 1.1.6",
+- "windows-sys 0.52.0",
++ "windows-sys 0.61.2",
+ ]
+ 
+ [[package]]
+@@ -6937,9 +6944,9 @@
+ 
+ [[package]]
+ name = "thin-vec"
+-version = "0.2.20"
++version = "0.2.21"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "4568d7e143ec86d2021c338bae2afa88699e84b8e0af523626654fe6f03a1748"
++checksum = "d6a4b9ba8738cb4a4f399d37e266becfd475e75eb73425b87a05a2f2039ba63e"
+ 
+ [[package]]
+ name = "thiserror"
+@@ -6978,7 +6985,7 @@
+ dependencies = [
+  "proc-macro2",
+  "quote",
+- "syn 3.0.6",
++ "syn 3.0.10",
+ ]
+ 
+ [[package]]
+@@ -7070,9 +7077,9 @@
+ 
+ [[package]]
+ name = "tinystr"
+-version = "0.8.4"
++version = "0.8.5"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "b1e27c91459209c2986af3dcf603a5a74a4368754ce37414f59acc971167f643"
++checksum = "abc840c238154d58f9e86b2792261edfde565a17696e1cda1a449de27979801a"
+ dependencies = [
+  "displaydoc",
+  "serde_core",
+@@ -7108,9 +7115,9 @@
+ 
+ [[package]]
+ name = "tokio"
+-version = "1.53.1"
++version = "1.54.1"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "202caea871b69668250d242070849eb495be178ed697a3e98aebce5bc81a0bed"
++checksum = "b52fd3255258d26fac7264ab5a76b53c13367136dc011d3d6ad4f8ed070396a3"
+ dependencies = [
+  "bytes",
+  "libc",
+@@ -7146,9 +7153,9 @@
+ 
+ [[package]]
+ name = "toml"
+-version = "1.1.6+spec-1.1.0"
++version = "1.2.1+spec-1.1.0"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "920602543f0911ab71da12c50d59701da54c196d1a2bf5cb4b75667f137a406a"
++checksum = "d5755c51863cdac711f1956baf8eb9588e060755f7d3c4c979e70ea1e1f32cd7"
+ dependencies = [
+  "indexmap",
+  "serde_core",
+@@ -7161,18 +7168,18 @@
+ 
+ [[package]]
+ name = "toml_datetime"
+-version = "1.1.1+spec-1.1.0"
++version = "1.1.3+spec-1.1.0"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "3165f65f62e28e0115a00b2ebdd37eb6f3b641855f9d636d3cd4103767159ad7"
++checksum = "173f25c883cd2176a2d8212155638c0a60d484a9d84546d270866f40f56b6e49"
+ dependencies = [
+  "serde_core",
+ ]
+ 
+ [[package]]
+ name = "toml_edit"
+-version = "0.25.15+spec-1.1.0"
++version = "0.25.19+spec-1.1.0"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "1340ea94a5856333492c9064b02c778b191dd2c853778d9609debdcdfea3a614"
++checksum = "dd43688c4858d7264ae1cf9a9f874a67c3feb74a883b1cd7bebd6a4ea8307218"
+ dependencies = [
+  "indexmap",
+  "toml_datetime",
+@@ -7182,18 +7189,18 @@
+ 
+ [[package]]
+ name = "toml_parser"
+-version = "1.1.3+spec-1.1.0"
++version = "1.1.5+spec-1.1.0"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "1d38ac1cf9b95face32296c0a3ede1fdc270627c9d9c02a7274dd6d960dc4d56"
++checksum = "baa693a8032d7e1cada7d0041e96126df243179ff061456783ac7f12bda4744c"
+ dependencies = [
+  "winnow",
+ ]
+ 
+ [[package]]
+ name = "toml_writer"
+-version = "1.1.2+spec-1.1.0"
++version = "1.2.0+spec-1.1.0"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "7d56353a2a665ad0f41a421187180aab746c8c325620617ad883a99a1cbe66d2"
++checksum = "009dbb7700f11c55ef83aebbe4c0e9cf1f1ac0844bd8d6f00dc38f302026e13a"
+ 
+ [[package]]
+ name = "tower"
+@@ -7347,24 +7354,24 @@
+ 
+ [[package]]
+ name = "unicode-ident"
+-version = "1.0.26"
++version = "1.0.27"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "d245f478577f809a851594d02313b640fb437e0bb33866753cff937863096954"
++checksum = "a2c754d6c33795a1c324727428e5a7dedb5b06195f9890bdbcba760d3e246563"
+ 
+ [[package]]
+ name = "unicode-normalization"
+-version = "0.1.25"
++version = "0.1.26"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "5fd4f6878c9cb28d874b009da9e8d183b5abc80117c40bbd187a1fde336be6e8"
++checksum = "75cd3fb03d5288b3ba9a1ee103ac7e9cbb59f0b03d64f8ddfcc04dd42758a85d"
+ dependencies = [
+  "tinyvec",
+ ]
+ 
+ [[package]]
+ name = "unicode-properties"
+-version = "0.1.4"
++version = "0.1.5"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "7df058c713841ad818f1dc5d3fd88063241cc61f49f5fbea4b951e8cf5a8d71d"
++checksum = "993ad287eb20e8ba755312801cfe1413e0f25d604075863acaddca10b04c1833"
+ 
+ [[package]]
+ name = "unicode-segmentation"
+@@ -7374,9 +7381,9 @@
+ 
+ [[package]]
+ name = "unicode-width"
+-version = "0.2.2"
++version = "0.2.3"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "b4ac048d71ede7ee76d585517add45da530660ef4390e49b098733c6e897f254"
++checksum = "ca718471876992059f251e33aafc334346ada08042b7661dd1fe313a9bced557"
+ 
+ [[package]]
+ name = "untrusted"
+@@ -7392,9 +7399,9 @@
+ 
+ [[package]]
+ name = "ureq"
+-version = "3.5.0"
++version = "3.5.2"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "cde93ff05758a36a851a398a772b0b79a82fbe3c186a46f2696baaeaf84c966b"
++checksum = "3ac5cecf619ca81f66a96482db09687c9f7465af65f4300a8c30cca05bd5a59d"
+ dependencies = [
+  "base64 0.23.1",
+  "flate2",
+@@ -7409,9 +7416,9 @@
+ 
+ [[package]]
+ name = "ureq-proto"
+-version = "0.6.5"
++version = "0.7.1"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "841583fc36089d7d59419568ae157f43a5a03a2e5a81ba87c77d1596ef46e922"
++checksum = "622dce33c252115466d83f63e9744a18f12b4406aae51a01c15ad8fcf1185eb3"
+ dependencies = [
+  "base64 0.23.1",
+  "http",
+@@ -7455,9 +7462,12 @@
+ 
+ [[package]]
+ name = "utf16_iter"
+-version = "1.0.5"
++version = "1.1.0"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "c8232dd3cdaed5356e0f716d285e4b40b932ac434100fe9b7e0e8e935b9e6246"
++checksum = "1c7de35d9d8757dbc1f5125dc8b51438c68b4430546a735c3a9b91aaaaf9a18a"
++dependencies = [
++ "utf_types",
++]
+ 
+ [[package]]
+ name = "utf8-zero"
+@@ -7467,15 +7477,24 @@
+ 
+ [[package]]
+ name = "utf8_iter"
+-version = "1.0.4"
++version = "1.1.0"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "b6c140620e7ffbb22c2dee59cafe6084a59b5ffc27a8859a5f0d494b5d52b6be"
++checksum = "af3bd9d3e571c26fcce9d033b87ea5ab061b8d2ffe9b7a5675d810d68f03edf0"
++dependencies = [
++ "utf_types",
++]
++
++[[package]]
++name = "utf_types"
++version = "1.0.0"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "3a3b425286980a367278453f3b6d28cdcb134b574e5a35824a6ff5eebad50bb6"
+ 
+ [[package]]
+ name = "uuid"
+-version = "1.26.1"
++version = "1.29.2"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "2ef6dac1e96601b4fb3acccccff2139741fcb757cb9a36089bf5be91cfb285ce"
++checksum = "bed99139f7dac9b5cfe5f17be4d66dc7079a34dee1d74bcc77217119240e267c"
+ dependencies = [
+  "js-sys",
+  "serde_core",
+@@ -7554,9 +7573,9 @@
+ 
+ [[package]]
+ name = "verifysign"
+-version = "1.0.1"
++version = "1.1.2"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "6acfcc42a8d44f340d001193d97ef56bf33210b51ad760ae8308c97d5241ca51"
++checksum = "a6efd25aadc22c756a9012267fae0b130278d335d6ceb512ec02ce82029b5ca9"
+ dependencies = [
+  "core-foundation 0.10.1",
+  "windows-sys 0.61.2",
+@@ -7613,12 +7632,11 @@
+ 
+ [[package]]
+ name = "wasm-bindgen"
+-version = "0.2.129"
++version = "0.2.130"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "9bb54f33acc68fd454578d9820b0bde1a1a3d17aa17bb7b6595806d02886d409"
++checksum = "a0181c14ddd6c7b8b0b0132a5f1ea2f32be0d893cd3ea97b6e3b28886b8a3d1c"
+ dependencies = [
+  "cfg-if",
+- "once_cell",
+  "rustversion",
+  "wasm-bindgen-macro",
+  "wasm-bindgen-shared",
+@@ -7626,9 +7644,9 @@
+ 
+ [[package]]
+ name = "wasm-bindgen-futures"
+-version = "0.4.79"
++version = "0.4.80"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "3cbab34de2d982e9b48e18d216d04c4a6f641066ff19ffb699980f591ee3610e"
++checksum = "5e14e0327cb5368ad60ccb22d04a9827a693c95a926d8d125e9fa39e0baec501"
+ dependencies = [
+  "js-sys",
+  "tokio",
+@@ -7637,9 +7655,9 @@
+ 
+ [[package]]
+ name = "wasm-bindgen-macro"
+-version = "0.2.129"
++version = "0.2.130"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "2e29d0c35b16e224a7eeb5cd2d25e3e1968fbd65604117b44d3b789d00ee8535"
++checksum = "6e931a02a39abdbf66966fc35902b5ed58344750a70885bed4ebb3d8eaf28ed9"
+ dependencies = [
+  "quote",
+  "wasm-bindgen-macro-support",
+@@ -7647,22 +7665,22 @@
+ 
+ [[package]]
+ name = "wasm-bindgen-macro-support"
+-version = "0.2.129"
++version = "0.2.130"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "6f501a8bc3719dba86ef8ae4728879c08001bea749eb1333ac5b91e040e2a6b7"
++checksum = "2ca4b54280e455bd831e33a6b8e734baf432fe63fbc35c42ac14ce67a043a53a"
+ dependencies = [
+  "bumpalo",
+  "proc-macro2",
+  "quote",
+- "syn 3.0.6",
++ "syn 3.0.10",
+  "wasm-bindgen-shared",
+ ]
+ 
+ [[package]]
+ name = "wasm-bindgen-shared"
+-version = "0.2.129"
++version = "0.2.130"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "23f0c9c52aa7cd7d77769a4cfe2a9adb1b331f489a41d912ce14513d5ab995c6"
++checksum = "3b1f9c3798725016c6ee5f2f57869ec0831e8bbc0ab0310a86e787e97f41389e"
+ dependencies = [
+  "unicode-ident",
+ ]
+@@ -7804,9 +7822,9 @@
+ 
+ [[package]]
+ name = "web-sys"
+-version = "0.3.106"
++version = "0.3.107"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "88261b9deccee56594c11a3460c462c41f58d148598fe70ad77070126a68aba4"
++checksum = "d7d179596ff5ec0f6de4db64d54011bde6289cc49603d3a6e4ce3f329207ab88"
+ dependencies = [
+  "js-sys",
+  "wasm-bindgen",
+@@ -7824,9 +7842,9 @@
+ 
+ [[package]]
+ name = "webbrowser"
+-version = "1.2.4"
++version = "1.2.7"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "62c35be770821a214dbc362fc26908c853e776c0004294d0b10b8a6bad582f94"
++checksum = "73e91ccd4698f2647d6137e8eb17a3f1dcfd63810be9029fb2398f507279b95b"
+ dependencies = [
+  "jni",
+  "log",
+@@ -7840,9 +7858,9 @@
+ 
+ [[package]]
+ name = "webpki-root-certs"
+-version = "1.0.10"
++version = "1.0.12"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "58ec80e73fd8baf57bf0d9615554c75348bda990d6d5bbeab964dd068319fecb"
++checksum = "293198dcebfb821155b5092ab94b5a82ff180eddd7241df3bd6e66a4ffd1a585"
+ dependencies = [
+  "rustls-pki-types",
+ ]
+@@ -7861,9 +7879,9 @@
+ 
+ [[package]]
+ name = "wgpu"
+-version = "30.0.1"
++version = "30.0.2"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "527ccdf43dd5b2e8676eed9984ce00e2bbb0a1b85b70c1969dcb6cd2eb55ab9e"
++checksum = "146fc3d654250e6207921a66c87534c621bc886c70df83dcf466c1d66813810e"
+ dependencies = [
+  "arrayvec",
+  "bitflags 2.13.2",
+@@ -7891,9 +7909,9 @@
+ 
+ [[package]]
+ name = "wgpu-core"
+-version = "30.0.1"
++version = "30.0.2"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "14c018fce9b6270aa203c2fdd56f3cce996713534bd757e4ea58c8560b121f14"
++checksum = "ad661da2ee99f208c30090b585284b2ab5b8bf2358ddf2d2215592808ec62f1a"
+ dependencies = [
+  "arrayvec",
+  "bit-set 0.10.0",
+@@ -7926,45 +7944,45 @@
+ 
+ [[package]]
+ name = "wgpu-core-deps-apple"
+-version = "30.0.1"
++version = "30.0.2"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "061f3d319a40d39d00b1ecc2c33b89fe21d4e6fe01859df3500a3a8ecccd6b68"
++checksum = "7d3f2f24aee039ffe9ef527300daf6b7428c58edeefdaa1700f4fa0fd754df16"
+ dependencies = [
+  "wgpu-hal",
+ ]
+ 
+ [[package]]
+ name = "wgpu-core-deps-emscripten"
+-version = "30.0.1"
++version = "30.0.2"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "d98b86cf4abf524a902dd35f18ca6a3f08fc2ae9847c8f10b48e30491b1f0b86"
++checksum = "55ccf093bd215ae9dc4f96df293e675513ac1f2569f8293a2911cc34ca3505d1"
+ dependencies = [
+  "wgpu-hal",
+ ]
+ 
+ [[package]]
+ name = "wgpu-core-deps-wasm"
+-version = "30.0.1"
++version = "30.0.2"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "d260ca2ca8adc654f513a869bf3cac0b47f5b8d3f87803d6942015f8de597aae"
++checksum = "b20f43aeb9962d05e61e3ccb717e2e27ba1b04e979d4ca7e361384f8ee03db56"
+ dependencies = [
+  "wgpu-hal",
+ ]
+ 
+ [[package]]
+ name = "wgpu-core-deps-windows-linux-android"
+-version = "30.0.1"
++version = "30.0.2"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "7586165fd5f6d881cb9ce4bb71f40d6caab2c0f1837e3fc1d9788a197fb6004f"
++checksum = "1331b08fa2362c5d454eccc4448e6e4f01eccfea569a00e310adbfc4415f2bdc"
+ dependencies = [
+  "wgpu-hal",
+ ]
+ 
+ [[package]]
+ name = "wgpu-hal"
+-version = "30.0.1"
++version = "30.0.2"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "b6b7fb58561a792bc237628ba0792e332de418fefe145f13b5ed8201e6d52f58"
++checksum = "a57452fe453658e141aafdb09de1028afa498805fab518238ddf372a518813ff"
+ dependencies = [
+  "android_system_properties",
+  "arrayvec",
+@@ -8018,9 +8036,9 @@
+ 
+ [[package]]
+ name = "wgpu-naga-bridge"
+-version = "30.0.1"
++version = "30.0.2"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "d2f62e73117bb7a62bfd9c5a5841438a823f6566c6442a808ee269d2d055c081"
++checksum = "44a62ead68aad7cd40ac9e2cd2b8ec64f32dfbad2765f429b9fb74b8b735869f"
+ dependencies = [
+  "naga",
+  "wgpu-types",
+@@ -8028,9 +8046,9 @@
+ 
+ [[package]]
+ name = "wgpu-types"
+-version = "30.0.1"
++version = "30.0.2"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "99dad6f1fbdbbdb4c278a6508b059d44688f5cebddf78d005a46a31340269286"
++checksum = "a9f6ee0bd50f5ab79fb8c25e3f33afb27126f034af4ba5909c7a0967058659e6"
+ dependencies = [
+  "bitflags 2.13.2",
+  "bytemuck",
+@@ -8048,7 +8066,7 @@
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "c2a7b1c03c876122aa43f3020e6c3c3ee5c05081c9a00739faf7503aeba10d22"
+ dependencies = [
+- "windows-sys 0.52.0",
++ "windows-sys 0.61.2",
+ ]
+ 
+ [[package]]
+@@ -8285,7 +8303,7 @@
+  "libc",
+  "memmap2",
+  "ndk",
+- "objc2 0.5.2",
++ "objc2 0.5.3",
+  "objc2-app-kit 0.2.2",
+  "objc2-foundation 0.2.2",
+  "objc2-ui-kit 0.2.2",
+@@ -8315,9 +8333,9 @@
+ 
+ [[package]]
+ name = "winnow"
+-version = "1.0.4"
++version = "1.0.5"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "23b97319f7b8343df12cc98938e5c3eb436064524c8d2b4e30a1d3a36eecdf81"
++checksum = "8c3b93199df0ab874cdf0c6a94f0a0dc3423fe41f1cafb62b8bd7b1deb277aef"
+ dependencies = [
+  "memchr",
+ ]
+@@ -8325,28 +8343,7 @@
+ [[package]]
+ name = "winprint"
+ version = "0.2.1"
+-source = "git+https://github.com/storytold/winprint.rs?rev=5f80b9baf6b58937c401656634e42d33f00ddf49#5f80b9baf6b58937c401656634e42d33f00ddf49"
+-dependencies = [
+- "flate2",
+- "fmt-derive",
+- "reqwest",
+- "scopeguard",
+- "sigstore-trust-root",
+- "sigstore-types",
+- "sigstore-verify",
+- "strum",
+- "tar",
+- "thiserror 2.0.21",
+- "windows",
+- "windows-core",
+- "windows-implement",
+- "xml",
+-]
+-
+-[[package]]
+-name = "winprint"
+-version = "0.2.1"
+-source = "git+https://github.com/storytold/winprint.rs?rev=bc06a7c48b768eb27a828c7986f6d2868b245ee0#bc06a7c48b768eb27a828c7986f6d2868b245ee0"
++source = "git+https://github.com/storytold/winprint.rs?rev=e90c444476609485ea3f5ff67ab12f65d75b11df#e90c444476609485ea3f5ff67ab12f65d75b11df"
+ dependencies = [
+  "flate2",
+  "fmt-derive",
+@@ -8399,9 +8396,9 @@
+ 
+ [[package]]
+ name = "wl-clipboard-rs"
+-version = "0.9.4"
++version = "0.9.5"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "4d7888ccd4896447b2d14d3a9350a85df2aeb6f181e2e7a31349d104ac46cac1"
++checksum = "959c7ac3b8afde864f7a7448ac16f29b2b83350b7eccbf77fb781c3999aa6848"
+ dependencies = [
+  "libc",
+  "log",
+@@ -8501,9 +8498,9 @@
+ 
+ [[package]]
+ name = "xattr"
+-version = "1.6.1"
++version = "1.7.0"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "32e45ad4206f6d2479085147f02bc2ef834ac85886624a23575ae137c8aa8156"
++checksum = "963d6fab92d5504b971dc8bd90ca743c2575e590bc8071ea5bc571598667ae08"
+ dependencies = [
+  "libc",
+  "rustix 1.1.6",
+@@ -8570,9 +8567,9 @@
+ 
+ [[package]]
+ name = "yoke"
+-version = "0.8.3"
++version = "0.8.4"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "709fe23a0424b6a435d82152b1bd3fdfb0833487d5fa90d05d42762a9891fef5"
++checksum = "417ef3fcf6c300b7dbd25c85531a746931c02ad536f3cf4786ed1e88223340b3"
+ dependencies = [
+  "stable_deref_trait",
+  "yoke-derive",
+@@ -8587,7 +8584,7 @@
+ dependencies = [
+  "proc-macro2",
+  "quote",
+- "syn 3.0.6",
++ "syn 3.0.10",
+  "synstructure",
+ ]
+ 
+@@ -8659,7 +8656,7 @@
+  "proc-macro-crate",
+  "proc-macro2",
+  "quote",
+- "syn 3.0.6",
++ "syn 3.0.10",
+  "zbus_names",
+  "zvariant",
+  "zvariant_utils",
+@@ -8667,9 +8664,9 @@
+ 
+ [[package]]
+ name = "zbus_names"
+-version = "4.3.4"
++version = "4.3.5"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "d8bf88b4a3ff53e883001e0e0115b297a9d53c31b9c1edd2bfdd853e3428624e"
++checksum = "812a12be4ead7a59e18ea8f047d08add0066b73bc62fc1467066a2472ae088dd"
+ dependencies = [
+  "serde",
+  "winnow",
+@@ -8690,27 +8687,27 @@
+ 
+ [[package]]
+ name = "zcheapstr"
+-version = "1.1.0"
++version = "1.2.0"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "d1afec51604565183aeb5c54c20aeab286120d4e4460f7f76e3e8bb8c0d99473"
++checksum = "939f186d9ecebe044315a5cb6d6f78568bbc21152adc954d5a0c2f58bdbc9920"
+ dependencies = [
+  "serde",
+ ]
+ 
+ [[package]]
+ name = "zerocopy"
+-version = "0.8.59"
++version = "0.8.63"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "6df92bf3d9227be3d53173901ddbffac2babc27ae50f397776ffd6dc33f800cb"
++checksum = "e5fe1f8f1b06191a00962174c61aa5005e0bb391a6d80d07e24d115c01a92ed8"
+ dependencies = [
+  "zerocopy-derive",
+ ]
+ 
+ [[package]]
+ name = "zerocopy-derive"
+-version = "0.8.59"
++version = "0.8.63"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "ac4f328cf2f05d084e496c3e9c3f33ed0a183656a16e1fcec4d464d8373aec82"
++checksum = "863ad3ac83293fb4d740aedbfdc9240dd8d1a50c1099acd76ce80ce7c7230c7f"
+ dependencies = [
+  "proc-macro2",
+  "quote",
+@@ -8734,15 +8731,15 @@
+ dependencies = [
+  "proc-macro2",
+  "quote",
+- "syn 3.0.6",
++ "syn 3.0.10",
+  "synstructure",
+ ]
+ 
+ [[package]]
+ name = "zeroize"
+-version = "1.9.0"
++version = "1.9.1"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "e13c156562582aa81c60cb29407084cdb54c4164760106ab78e6c5b0858cf64e"
++checksum = "e13084392c5e4bc371903e2935a5eaeed24905a7511356b883835e18a78f6879"
+ dependencies = [
+  "zeroize_derive",
+ ]
+@@ -8774,9 +8771,9 @@
+ 
+ [[package]]
+ name = "zerovec"
+-version = "0.11.8"
++version = "0.11.9"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "bb0464e17806c1d976d5cba29399c7f08e516e279e2ba493f63123b5fca67dd8"
++checksum = "f58a2799cfe9a1670c7ea8edbd52ef8edb93cb37a7f83bf31ba9e35d9dae6a40"
+ dependencies = [
+  "serde",
+  "yoke",
+@@ -8786,29 +8783,32 @@
+ 
+ [[package]]
+ name = "zerovec-derive"
+-version = "0.11.6"
++version = "0.11.7"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "34df6fc39dbd26ddc9c10e6a2984476e13acce22e64e4487636ef494369225da"
++checksum = "c3743ddbf47738d929cd1ae2e199d40d0162979dfe31aef8ae646d2bf00bf97a"
+ dependencies = [
+  "proc-macro2",
+  "quote",
+- "syn 3.0.6",
++ "syn 3.0.10",
+ ]
+ 
+ [[package]]
+ name = "zip"
+-version = "9.1.3"
++version = "9.5.1"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "1156b39d142a34b999c2310a50455e0cb3760bf7efad0122f796d813bee26ccb"
++checksum = "e3476fd497ac8af5b1ec7b51acab7bef380f7e8dd8e0487595bafd839417a302"
+ dependencies = [
++ "constant_time_eq",
+  "crc32fast",
+  "flate2",
+  "getrandom 0.4.3",
+  "indexmap",
++ "libc",
+  "memchr",
+  "nix",
+  "typed-path",
+  "windows-sys 0.61.2",
++ "zeroize",
+ ]
+ 
+ [[package]]
+@@ -8840,9 +8840,9 @@
+ 
+ [[package]]
+ name = "zvariant"
+-version = "5.15.0"
++version = "5.15.1"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "c1d34c27cc6cdd1f458427519dd6b8612f7b7e3f7b9a0b2355d041dda9869147"
++checksum = "80bf6d6cd6a4b601acb64cfb8284cdc643fcfa75ef26ae3c46ec8aa4e8a1fbb7"
+ dependencies = [
+  "endi",
+  "enumflags2",
+@@ -8855,14 +8855,14 @@
+ 
+ [[package]]
+ name = "zvariant_derive"
+-version = "5.15.0"
++version = "5.15.1"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "864155e69b4352db0c7f374917bf45d1e0c8d17659c8b3dbf9795f3673f8c497"
++checksum = "ef2672456ba1cb54b5eaec136e63135b3c7495fb938e53b28a62e633496d486d"
+ dependencies = [
+  "proc-macro-crate",
+  "proc-macro2",
+  "quote",
+- "syn 3.0.6",
++ "syn 3.0.10",
+  "zvariant_utils",
+ ]
+ 
+@@ -8875,21 +8875,6 @@
+  "proc-macro2",
+  "quote",
+  "serde",
+- "syn 3.0.6",
++ "syn 3.0.10",
+  "winnow",
+ ]
+-
+-[[patch.unused]]
+-name = "egui_demo_lib"
+-version = "0.37.0"
+-source = "git+https://github.com/storytold/egui.git?rev=725a39fca940f77149ffbb9c58eef405a16997bc#725a39fca940f77149ffbb9c58eef405a16997bc"
+-
+-[[patch.unused]]
+-name = "egui_inspection"
+-version = "0.37.0"
+-source = "git+https://github.com/storytold/egui.git?rev=725a39fca940f77149ffbb9c58eef405a16997bc#725a39fca940f77149ffbb9c58eef405a16997bc"
+-
+-[[patch.unused]]
+-name = "egui_system_font_provider"
+-version = "0.37.0"
+-source = "git+https://github.com/storytold/egui.git?rev=725a39fca940f77149ffbb9c58eef405a16997bc#725a39fca940f77149ffbb9c58eef405a16997bc"
+diff '--color=auto' -Naur a/Cargo.toml b/Cargo.toml
+--- a/Cargo.toml	2026-11-11 17:40:29.000000000 -0800
++++ b/Cargo.toml	2026-11-13 01:36:51.911190472 -0800
+@@ -166,8 +166,8 @@
+ egui_glow = { git = "https://github.com/storytold/egui.git", rev = "725a39fca940f77149ffbb9c58eef405a16997bc" }
+ egui_extras = { git = "https://github.com/storytold/egui.git", rev = "725a39fca940f77149ffbb9c58eef405a16997bc" }
+ egui_kittest = { git = "https://github.com/storytold/egui.git", rev = "725a39fca940f77149ffbb9c58eef405a16997bc" }
+-egui_system_font_provider = { git = "https://github.com/storytold/egui.git", rev = "725a39fca940f77149ffbb9c58eef405a16997bc" }
++# egui_system_font_provider = { git = "https://github.com/storytold/egui.git", rev = "725a39fca940f77149ffbb9c58eef405a16997bc" }
+ eframe = { git = "https://github.com/storytold/egui.git", rev = "725a39fca940f77149ffbb9c58eef405a16997bc" }
+-egui_demo_lib = { git = "https://github.com/storytold/egui.git", rev = "725a39fca940f77149ffbb9c58eef405a16997bc" }
+-egui_inspection = { git = "https://github.com/storytold/egui.git", rev = "725a39fca940f77149ffbb9c58eef405a16997bc" }
++# egui_demo_lib = { git = "https://github.com/storytold/egui.git", rev = "725a39fca940f77149ffbb9c58eef405a16997bc" }
++# egui_inspection = { git = "https://github.com/storytold/egui.git", rev = "725a39fca940f77149ffbb9c58eef405a16997bc" }
+ winit = { git = "https://github.com/storytold/winit.git", rev = "a517b3846ee8457d84ee4975110bfda6797c44dc" }
+diff '--color=auto' -Naur a/crates/print/Cargo.toml b/crates/print/Cargo.toml
+--- a/crates/print/Cargo.toml	2026-11-11 17:40:29.000000000 -0800
++++ b/crates/print/Cargo.toml	2026-11-13 01:36:51.911190472 -0800
+@@ -17,7 +17,7 @@
+ thiserror = { workspace = true }
+ 
+ [target.'cfg(windows)'.dependencies]
+-winprint = { version = "0.2.1", git = "https://github.com/storytold/winprint.rs", rev = "5f80b9baf6b58937c401656634e42d33f00ddf49", default-features = false }
++winprint = { version = "0.2.1", git = "https://github.com/storytold/winprint.rs", rev = "e90c444476609485ea3f5ff67ab12f65d75b11df", default-features = false }
+ 
+ [dev-dependencies]
+ pdfcraft-render = { workspace = true }
+diff '--color=auto' -Naur a/vendor/winit/.cargo-checksum.json b/vendor/winit/.cargo-checksum.json
+--- a/vendor/winit/.cargo-checksum.json	1969-12-31 16:00:00.000000000 -0800
++++ b/vendor/winit/.cargo-checksum.json	2026-11-13 01:37:02.201669421 -0800
+@@ -0,0 +1 @@
++{"$comment": "This file only protects against accidental modifications. It is not a security mechanism and does not protect against malicious changes.", "files": {".cargo-ok": "afbf9d0f3560b0fd7795e81c42a0a79ee6b6fc67e064f77826aee642cad28d91", ".cargo_vcs_info.json": "b8b2549c91dbf3dc4087197a6be89ab5acb5511c2d1eadc7349c249f646047bb", "Cargo.lock": "b6183ac90e9aabac21f3fd993380cd8d8f7a28c7b7b67f8ae5549e95bedc205f", "Cargo.toml": "2aeb741d47b763ee198ca915c330a6bf0b1fc094dd69357e80278b7852289c61", "Cargo.toml.orig": "9e406724f6e8e69ea1986f1f4bc592617c3e19ff855b163cd076939d6c8969b9", "FEATURES.md": "0e7a315f1016e07b0e1045511b6072ce13b3fc372c4fe097d0a8eea3d35ec2e1", "LICENSE": "6dc0e068dcf3a5bc8e054205b85b7720e1d49265bbc64bf515d2cf79197df69a", "README.md": "c21ecf8dc8b5cab43c5a8ecf0c043ad4eae6663b962ae6e9d10b7a6e3fb13039", "build.rs": "eda62c3ebf765708bf1608b51ccf77501b4aa0253214c419f813c6d08d640b1a", "examples/child_window.rs": "a605c0d8d2b7e9bbc585a109f82fe0f032dda2ea80e4efb07c396d34576bc10c", "examples/control_flow.rs": "3c3ab1670113f7ef4b826f91a1daf6b8419171cac3e6042cc3d871c31fcb858d", "examples/pump_events.rs": "9d2b52aee808ba58c4e987eda0562493c15da298de67bba210a5727ceb910c9c", "examples/run_on_demand.rs": "b12ac771a8e4fd8945170f5dead56905ca6146e98c6203f2e197e50a364d0406", "examples/window.rs": "f7cd8787211bb307736dd385766dd22e93a74fecae5f4f45928152a0265537e7", "examples/x11_embed.rs": "571f44156b395c4b2466f2bedae81c818817a6b87f1d1958e9b52c117df3f5ad", "examples/util/fill.rs": "9fb51f71015d6a0bac1ab796c1b4806970f4cda6003d996ce2a5fce97c4f5260", "examples/util/tracing.rs": "4df742b6fa78a20e1d1971c789042a154c3cfa83eaea7b670ff56ab6e04f5a86", "src/application.rs": "993ddc2bbffca969224b2045dfd6cefd6cadd923df83f8ba24da8da8e5ab3fb4", "src/cursor.rs": "479eb73a7a23a58b718ce7255345f3f65ed2cf46d2e4e7d1716deb469dd9099b", "src/error.rs": "549f95a2afff4435eed400c580b7d512229c7958df19258c0ce2ac30474f121d", "src/event.rs": "ff5c577343a725173a539c797e243fa8f6150c02181d904bddb9d82581a7a61e", "src/event_loop.rs": "f84209476849188122139926697f1fe97e17409a41ef0e8dfadf9bd4718108c7", "src/icon.rs": "42780fcdb3dfe001fa24c51e21d326df2961e4232e0b09b0e8d9c3518161e73b", "src/keyboard.rs": "fb1400750fb0c6d376415e642c837e0e8ded95f55ba03a8889d336d180620394", "src/lib.rs": "924aead3c0bd3e446e8ee51193c636916f8b0b9d2cbb964e81e160db0f07a2ec", "src/monitor.rs": "60d8887910f1d3836544f12d000146d95790f8af54476d7288f73f822377083b", "src/utils.rs": "a6b2a21ab09102d288d9c9bfdd4c9173ae24cd50b18f3b11c6d9842c69ea3fc9", "src/window.rs": "977153e4a39ae156c0dcbfcbd7270915fbc12c3459591535b351875a226aff97", "src/changelog/mod.rs": "55a97a82a15c4006dca76e46bbd7ade72e103f54bbcc111bc55341207dff5140", "src/changelog/unreleased.md": "21810a83a3b89ef6dc1471c8028bcc9beecb467e88bbb944f2cdb9f04633ad1f", "src/changelog/v0.10.md": "3ed4a49e068409208aa2d1640693bcf835b5b0a5367fc19a03f458edb366a7cb", "src/changelog/v0.11.md": "81110653eea2a68ff69b19cd540c1461cff1d9a4353fec08dc3a4e26ff44db07", "src/changelog/v0.12.md": "41250756388ef71a6889f076a4ee87f63c6c70bf75597ce3dc5bd812d36d2f82", "src/changelog/v0.13.md": "021eb96e41f10de60fc33c0463df68194571ecd6169e17cc8c5c938f7f64e5ce", "src/changelog/v0.14.md": "8ed872d3e8abdd2c18ae1d65976734442ab41194195b31888c155b2bcba21c98", "src/changelog/v0.15.md": "3c96f73e28f85926440b9db7b445a1786f30bb7ec2844c3f3f57e7849db32b07", "src/changelog/v0.16.md": "5c8333b5bf024a2f39d91f93846ffe469d141c7b11e5ce501daa720ba64a9196", "src/changelog/v0.17.md": "2598e37dbb7e495bec60cafe693041fa5d58335a1a38b37a0779edae24e6942a", "src/changelog/v0.18.md": "f61eab5f6eace3ff07f66d4340c21926172332c748ba3e3fc4b7e07bdfa92ecf", "src/changelog/v0.19.md": "ea5ca936d53274e8a4f8bd385ba59fff5df866d889a4a69ca329791a664a3aee", "src/changelog/v0.20.md": "b04bf3e79ee11fd5f9646ccdc076a50c5a7e9749dc872adcc1f392fa1f1b1723", "src/changelog/v0.21.md": "ebc856323df17decd003fba57fc5e3f5b8c7ae8eaa763048b4d6dbef8ae09b01", "src/changelog/v0.22.md": "bd56cb152ac452ee4b354ace3976d3abda73d7db3a81afafee25c84cfdf08705", "src/changelog/v0.23.md": "6570ab734b9201360f5ca592343114bb3de9a608051333a4601c087dff234d5c", "src/changelog/v0.24.md": "a7bea6cd9d087c0a6ecddbbe5472dd3fa87735f088614c052db808c5742b57a8", "src/changelog/v0.25.md": "38d2cd8e8b067779b4c86c0b1d7d81a3b5f4101b2868eb316f41bd55e8bff71e", "src/changelog/v0.26.md": "b7a52b06cdddeff78c1c3e845ab42f5d41a268ef409c5237ddf3e15c1bbb7772", "src/changelog/v0.27.md": "51765d0114217504dc17c65894194ceb6928601eade2949fa72fcb6c00051528", "src/changelog/v0.28.md": "12829235afb1ae4481cc74bfff80997d404c987fda69c81bb657d7b709ead394", "src/changelog/v0.29.md": "04f9f09219695380622359e3ef74ebda5a89549cf8175b7aa965743a9e6d48b0", "src/changelog/v0.30.md": "5e436376fe1234cf94b08c4cb1dcd6d2e6e7684e4a33b71e17217a8fd0c18721", "src/changelog/v0.8.md": "c936e8b8ef369180ab9cf8fc24891d398dca5f238cb39467fe79a2f0b19539a1", "src/changelog/v0.9.md": "fe9f9f731d585e83c2d35d7c2c560fa892c424d3e7ea1d13050ffdb467d50383", "src/platform/android.rs": "7a576387937d93c03654067a7197ec65da6c9f3e39b145a32182fe43f93609bc", "src/platform/ios.rs": "bfb43e3067cd74067ce6019048141f86c1524b5a7859756f7b938310e9d9984b", "src/platform/macos.rs": "c6685a9e320715b00124d66eb5e9be088cf1f165678e832a86459f0026d215e9", "src/platform/mod.rs": "371ae3adce64ba6353c03cc5f7251325b50f0516bed4eca50496f1e42b5f6dfc", "src/platform/modifier_supplement.rs": "e23c4a667aec84232ce072b7066a2aa2c912a1a7d5c0b7d9b5b648f877fb642d", "src/platform/orbital.rs": "e511445fa2d06fc7210a88abbc760395710c60a4c0376d1a4a0ee29e522bf2ac", "src/platform/pump_events.rs": "bbdc0f490758f91609f1b46998976e071775bf9f17a7c4a3a12bd6781b0c6b3c", "src/platform/run_on_demand.rs": "007047afc1e916f1bc01c5ee1bc959dd865049f17be97dc517abb7bacda66262", "src/platform/scancode.rs": "2ce520012ee3ab6b5884d2f74e84380811b6e50c7139eee176fb233d75b25df2", "src/platform/startup_notify.rs": "c2b3ba714649268109ab48ef5cc7dddd7dab0198518987f8735c174fe6b2c5b8", "src/platform/wayland.rs": "4fd4601c7733275031f14c40d33caca8e493197c40bc721fdd055297f9690d00", "src/platform/web.rs": "4dac8e96213a4ca4ec586946f18d16dfbad3666ce1e60b34c4e28eac6e213c5e", "src/platform/windows.rs": "1a480966b317ac2f3117b26d379954b2d9af1740472a9ae07e055598862a24eb", "src/platform/x11.rs": "a64f13d1e3e77c4cb3b21faafe87d74e8063bd901e5cb38af98738dbdd0fa911", "src/platform_impl/mod.rs": "32e11e828a4cee9ad1dcb649beab6b6842f9b5bff4c1e070c67e78c7c1e3d6c6", "src/platform_impl/android/keycodes.rs": "ee8674acc597a71665bedd05e7ac79b8efb76570fcefe616e5eeb81474822475", "src/platform_impl/android/mod.rs": "17e982ffa857b36166b38a89c99bd4c19e199d847dfb3d43f289ca8d4e3bd066", "src/platform_impl/ios/app_state.rs": "f2ff4a1093ccd4d52f3db86458ea8fbd18805876082c3a4ccc127e8d8e614a6a", "src/platform_impl/ios/event_loop.rs": "df8f0d5e25b799b63edba57168ccfd736283c10149d596aab146019fc770a5aa", "src/platform_impl/ios/mod.rs": "0707a46215de8a0c7692ae04ade45de27de19988fd3cb54fd4c5553e7c3aea7c", "src/platform_impl/ios/monitor.rs": "76abeeafdab29e5dd46426a3f0eb173931b392dcff356bdc1c218e00adefec37", "src/platform_impl/ios/notification_center.rs": "cdcee390403dc4518402248022ad7d7fcd61ac42a041633f3de684d6533bddd3", "src/platform_impl/ios/view.rs": "95f8cb9caf86ef10174c687eb017d110567d8ad3adba89c25c37f41fb6359cc6", "src/platform_impl/ios/view_controller.rs": "fe4d8403c4e8f8bba6cb5f45191532649c6e28886536173dc3f546a3c9c9ff69", "src/platform_impl/ios/window.rs": "731b07469178cf763d44f43e6dc31a2b1dce89788ac4b5a9e8adf641237ea7f4", "src/platform_impl/linux/mod.rs": "ee825f75ba79a7a12932640e8b085fdc897a35d3ec8105a37987ffd166d1c9f2", "src/platform_impl/linux/common/mod.rs": "697b29a56eeebe70eed5e9549b53d15c474d8c7f54a7476f992646f8603aeb25", "src/platform_impl/linux/common/xkb/compose.rs": "d4f11c74f1e1ffd93ecc75d7fa2afdba25212925f0589d7a9c26b9784a43e344", "src/platform_impl/linux/common/xkb/keymap.rs": "e08d41edd547e57df87b6c8da271f7c956a0d4dcead1cf2b17ab2c67652e0c82", "src/platform_impl/linux/common/xkb/mod.rs": "4ae8efa819657fa6cd8c38543f8638d7c7c67af18ff3a8b871919252d87c2400", "src/platform_impl/linux/common/xkb/state.rs": "c7a940941b2d1c679a2da163b244d6ec131c2d5d24f75e5265921cdb938c3cb5", "src/platform_impl/linux/wayland/mod.rs": "473911ef643fb20ca22dcc9a7eb9c87344b0914b470b019384d7ba1be1e92111", "src/platform_impl/linux/wayland/output.rs": "14982bc1e6ba130eb2c3d0da790905d28075cd1cec215b6f74e560fa449f5421", "src/platform_impl/linux/wayland/state.rs": "18beef206a1d0a1cf72ac65b1cefb4984bc204ca0638ecbbe2cb2c8d316422c9", "src/platform_impl/linux/wayland/event_loop/mod.rs": "dd1ceefa859550fb109460ff9b536307dfa457069899244da0220c0a81267edb", "src/platform_impl/linux/wayland/event_loop/proxy.rs": "090756d810c1cdf56832c8b283044f93965f0149db601f40625bb977a05468de", "src/platform_impl/linux/wayland/event_loop/sink.rs": "3f92a12b7d786f12edfe69925c2ba17194974c427614d4c449335aa843f9d2c2", "src/platform_impl/linux/wayland/seat/mod.rs": "40f9ad1390b0909603e3c9855c943dec92467bbc2ef94fc82687021ddb68cae7", "src/platform_impl/linux/wayland/seat/keyboard/mod.rs": "dd20e74809b3a7987864bc5cabdbeaf62a8474400ddbc4fc86188ed7a84dea62", "src/platform_impl/linux/wayland/seat/pointer/mod.rs": "c0be3af24570b4ca016f0935623c651b03d0f77db0284856863fe9d2689db959", "src/platform_impl/linux/wayland/seat/pointer/relative_pointer.rs": "c1e9a253d23827036950ec58fb78f4d3b326b2f57cdff7381f0c0cef8015bea9", "src/platform_impl/linux/wayland/seat/pointer/scroll.rs": "cb3296433078d9109539bf91b8930db47ae7d4f706aa0f0d36e4c8a9fe951bb5", "src/platform_impl/linux/wayland/seat/text_input/mod.rs": "197f1b241915f4d579649e187b653efb7f1bfac9405821f2a2e0eef88e5375c2", "src/platform_impl/linux/wayland/seat/touch/mod.rs": "dd16a75607cab3ba5723ad6b7a2ad6dd09fa2a63fffa57622367f137ea5d3987", "src/platform_impl/linux/wayland/types/cursor.rs": "b513bb85d34e3df1d5bc765e2f88a468e80f43d50464336d5dbaf54332fdf8e7", "src/platform_impl/linux/wayland/types/kwin_blur.rs": "6cbb4ce3e2484a01bacfa24a55ea3c1659503b18fc48e8f41f341d437f291ea4", "src/platform_impl/linux/wayland/types/mod.rs": "84e32b36a90e15747ce5beae9318f1475d15925a45248147a5b7e9920e74f4c8", "src/platform_impl/linux/wayland/types/wp_fractional_scaling.rs": "c0897ffeee6f631aac024e9a737b90c18b807a775cf898e64b45fcca84ca97c7", "src/platform_impl/linux/wayland/types/wp_viewporter.rs": "77b67951f7bdd959555e8b39a8830d4547b28f73a921a4f347a647a9758d156a", "src/platform_impl/linux/wayland/types/xdg_activation.rs": "8d0fd39c97c6eb19b8231df20624777feca1aa45bb38692ab498e37e42aa5bab", "src/platform_impl/linux/wayland/window/mod.rs": "30b6c00aa143046e4b1d7277e5fd08ae7ef7f7f084b0c0e62c89e0dda8a5c6c2", "src/platform_impl/linux/wayland/window/state.rs": "d09f9c19235a36d0a0068eb82428a27e3a4f318f31925368e573310ae791030a", "src/platform_impl/linux/x11/activation.rs": "e30310151a7277aa8467adb0890b16482913efa6aea1e518a0b1d5ac83e3ec95", "src/platform_impl/linux/x11/atoms.rs": "409f77f94faa03e9ae3ab09d62a01e044aaeb5bbde9c9ee5e55ad6994374138b", "src/platform_impl/linux/x11/dnd.rs": "89b186416d72fb36ecfaa350cae884949b1445d7a7b99a926eadba861d550243", "src/platform_impl/linux/x11/event_processor.rs": "b668ab295f229c196d1fc03ffa33c3a07b817dc6f9e3a5cb8eacdf7adfca90bd", "src/platform_impl/linux/x11/ffi.rs": "a311e1e922ce9dab1d1761854bcff0b64ff50d7c34848a869ef70820cbcbdd79", "src/platform_impl/linux/x11/mod.rs": "811861508c9e34923fc77ff9aa610b1b977b641fd72a919e634ce0d38f788d45", "src/platform_impl/linux/x11/monitor.rs": "5c49263f0ae5355cf56f379544f28301ebe63f4130e3b5744bfb5e1ae5d16fa0", "src/platform_impl/linux/x11/window.rs": "caa0e303e2d1956020b1c27ead24dbe9c45fa73559ab38fea9a71d5e111ba8c7", "src/platform_impl/linux/x11/xdisplay.rs": "ddfa5f2140c8cded23e14247011a5fdcc6c2a83d2523584f50d2da49b8a094d6", "src/platform_impl/linux/x11/xsettings.rs": "3429aea240688c0faaab7f9725b586b6cd2f3332d6f9b19ac8da7689605713b0", "src/platform_impl/linux/x11/ime/callbacks.rs": "82fe96afa6d46514b54d3c1a35bc9ea8ef44e91750976c17aada99f521f33325", "src/platform_impl/linux/x11/ime/context.rs": "c4cbbdd20f6eb46e26521c1e877456363a2752e962ea4c4d27ee0f8e98e545f9", "src/platform_impl/linux/x11/ime/inner.rs": "0f8e8070b1590cff566db06d8fd4e849ebfd4066817f60a455cb020dff81ba2d", "src/platform_impl/linux/x11/ime/input_method.rs": "b301d72119cd3c87109540a760a7c0cac5cec58ced425a4bf2a91ff1c7dfb700", "src/platform_impl/linux/x11/ime/mod.rs": "eab70b70b54db46c0e8daaf1d3ea6fb5709a113b3112efa85a1833efb9b54754", "src/platform_impl/linux/x11/tests/xsettings.dat": "26968fe327bd1b9617766cc73128812a582c6254eb9ed1d222bc0d0faea43aac", "src/platform_impl/linux/x11/util/client_msg.rs": "76c0c08831829fc010be1150e8f9aa9cc366b25dd344dba381ce7f7d3d3373af", "src/platform_impl/linux/x11/util/cookie.rs": "d53987a8d3bb8e0b4462ed3bf670ff35f1f9c8315f622ad199990cd7629adaef", "src/platform_impl/linux/x11/util/cursor.rs": "e3d229d3f27ed087c8916ba9b7e9ec6f08af11a5064e659f45aeb364ca703d22", "src/platform_impl/linux/x11/util/geometry.rs": "fd2054b2e1c086011cb639830038737654fb9ecbd7fd090f5bcc0cc1567a1803", "src/platform_impl/linux/x11/util/hint.rs": "f5f4744d090bbe6280e09ce2d6ea2da76d0d899d87762059a99d1174b39e47f8", "src/platform_impl/linux/x11/util/icon.rs": "598a457838fff1e3eccc4274a13bdd140419ce303684347604712b127d57c6d6", "src/platform_impl/linux/x11/util/input.rs": "a1db43e9940a20581cc4308f9be5b749d9912208c5bfd5fa6ce7d2aac71daaef", "src/platform_impl/linux/x11/util/keys.rs": "5d6af7d9c91107ad5d9d8451bc3f85922bc5dcb87deb9e215956d03d2a69acba", "src/platform_impl/linux/x11/util/memory.rs": "b88e9bb56f20582c85bf07d176011dce4c6357c1de877c6241f2496ad4d27c42", "src/platform_impl/linux/x11/util/mod.rs": "180f12c887da4c10904de7cf2934543784c917338b49d182aba7d098b183a899", "src/platform_impl/linux/x11/util/modifiers.rs": "1f99aa3c76936f76eccc1eab18d39aa38916b97c4429e40818279650a09df78b", "src/platform_impl/linux/x11/util/mouse.rs": "5eb02a1b1206dc05d056da762c210e4828158758d10f547277e7e08d8cead38b", "src/platform_impl/linux/x11/util/randr.rs": "a18b9cffd8088028fd17e6f0856e1d2a9b35ec7720ab2a3bd085408229f56b72", "src/platform_impl/linux/x11/util/window_property.rs": "a079a7c6a7ed75e39b35cc76e4f55aff54b1cb6887711d1323fd60bc36ab4e4a", "src/platform_impl/linux/x11/util/wm.rs": "09ec80c212ce2110022c8d2d81731e1f7c90438722cff8fae8dbbcc5e92ae220", "src/platform_impl/linux/x11/util/xmodmap.rs": "1bd99ff1891b79ff59f38773a1ab5ad3fb9a60fc55643a3787dd3c02b6afb48d", "src/platform_impl/macos/app.rs": "14ba9f49d955a906a115c34fd12fdbbda13ac9b75740606e9fe0daeffa903c5b", "src/platform_impl/macos/app_state.rs": "cb346eda09cfb7ddb4941fead441e3242eec0c64639a621e7f3116702531b7a4", "src/platform_impl/macos/cursor.rs": "537ee43a90cba74cc73801a45b67ef2356d99c7af12489865d0ff78273c6a9c9", "src/platform_impl/macos/event.rs": "dd073f82f85c5950eebb45256521da675e216ec56eaacadb7b413b96f1e894d4", "src/platform_impl/macos/event_handler.rs": "05b01ef0413ef0eb1004decf7def1131aa0ac6ce445bbcc03606c9c8b3a862c5", "src/platform_impl/macos/event_loop.rs": "c538c57419a311e335842f18e55d3e1ba4d493fa88c111d3e956ef81458f0c89", "src/platform_impl/macos/ffi.rs": "ae4aed628db11c332c8de422bb181bec15b22e44712b50d0a8eabb98d25f417d", "src/platform_impl/macos/ime_startup.rs": "81b8dc85027f24b862b89ec4f80e89773934f21c0a75cd5d7e976581fb972ef2", "src/platform_impl/macos/menu.rs": "b0bcc89693df6c2f5ff5cbfadaad83cff7fd5815483e2aaeea07b55e61a32ceb", "src/platform_impl/macos/mod.rs": "d183cc83359309dd62f5f11eeba88f965a2c68f3aaa84daf501005ea90034a6f", "src/platform_impl/macos/monitor.rs": "456ae20157b0c40f98cf2d7b6850fc07aacb510f5cfda27891c0ffcc2ee47e68", "src/platform_impl/macos/observer.rs": "c4b1a7e129237924d6f2f20eed2e66d1d9c111b267d2bf1556bec85accc509b4", "src/platform_impl/macos/util.rs": "9c938d322c89cee11fb041ebd43ef77355fb1a38fc77151ce730133929e32955", "src/platform_impl/macos/view.rs": "acbf7a95eb625053642b4400aeebea50fc90c74501c383eec2bd90ddad002059", "src/platform_impl/macos/window.rs": "981b8acb0e46f9b153c143b939c8e39a63b994b5d3f8f0c0f24c56b2993bd1f8", "src/platform_impl/macos/window_delegate.rs": "5dcd1973c322b701e5882da0cb334a947d3302210eb0d806d51e20d6889c7b14", "src/platform_impl/orbital/event_loop.rs": "20865c2ee7405e5dec577bc5aa6c62ca043ae4c3ff0cbd17f6d029ee27b1726d", "src/platform_impl/orbital/mod.rs": "6b078d029061621f88dca6b1b88eba78671304779352281a9ee8d84e6c5829ca", "src/platform_impl/orbital/window.rs": "a804344a32c90e8ff43a2640f99a63f3a3894a52137dd07a4503a435e7552279", "src/platform_impl/web/cursor.rs": "4c44bb489893ffa0ce6f72e3949d4f6ec208ef0848ab76e2f2491d49227dd63b", "src/platform_impl/web/device.rs": "b01dba26e4eaaa488e25637428d766d64e0ba3985645f9dd4f7a6c999d77243a", "src/platform_impl/web/error.rs": "aa81b02160abb8707f5420d373ce9fd664f3255fedb49982f8539caf3a5e6083", "src/platform_impl/web/keyboard.rs": "b15c5d89b2989b516ad87dbdc97b0b41aea6d09f929404894a0a907e4c4a2f6d", "src/platform_impl/web/main_thread.rs": "9658c9a69410784162c983144a5c37638eef4cd6967d24eaedd25f01567ab00c", "src/platform_impl/web/mod.rs": "2208e8c703370f19caa7c545badae78fce6f4bd5c569399dfa5497399212c98e", "src/platform_impl/web/monitor.rs": "a746440b15fd8affbef1cc7bec63bbb40e548494a01b67bfc061fb0e4da77d38", "src/platform_impl/web/window.rs": "fc6a7844845ec3b9d84188b59c9ef4bc8f5357a922f34bcb62d7a1dd3ec29424", "src/platform_impl/web/async/abortable.rs": "9a6e1ca49d3cc19cd808dc5d0a94a1da16f7049021449aed05073703f1410f1e", "src/platform_impl/web/async/atomic_waker.rs": "d06e582da4c06722419566040cf2b9b131139072825d3c6da94183fa42d760ba", "src/platform_impl/web/async/channel.rs": "32c90e56e0c975168e6f1cb05dbec119112f5c34925ebdae02ac3ff933ee66ad", "src/platform_impl/web/async/concurrent_queue.rs": "b2db7edc5ae541bab5157cc057a5c5594aa4083acd6c564f615387799520c1b4", "src/platform_impl/web/async/dispatcher.rs": "8e9f12f85ff04ef43af769eb968208076c47bd8135e31af78e65defe972e58e1", "src/platform_impl/web/async/mod.rs": "3d67f5c7205a9c506bf0273d97b786901225c015058eca4408f9aa09de4b5fa4", "src/platform_impl/web/async/notifier.rs": "a13b0d9e0517da28716b86c5155fcce06294e3386f4267a20eac043e97b7fa90", "src/platform_impl/web/async/waker.rs": "c6cde0c84e315972bc1735762961e29ff5cfdb4990a16c6e4196705a32305852", "src/platform_impl/web/async/wrapper.rs": "03aa2bcbf2a4af964f023d34d89344268ecd6851ee14ed62ec80735f7633894e", "src/platform_impl/web/event_loop/mod.rs": "6352287ae6a0afb3ebcf3919d12c2dfb3821901f790dd31cdd4bf4a3846069a0", "src/platform_impl/web/event_loop/proxy.rs": "03062c47460e5c53007bbccb233484435e081c515d7b59edd66bf808b40b3d62", "src/platform_impl/web/event_loop/runner.rs": "e8ecd77ef8c4550ded308827e3975fdc54065ab58413a80b48e2f2bd1325bc8a", "src/platform_impl/web/event_loop/state.rs": "989601ab5a56c7eb6ba495d027f6093a64a8fb32facd31ad9e2f0da24697c98a", "src/platform_impl/web/event_loop/window_target.rs": "8c47586f4fba7a77d8ce339289893040287b6c78e6d98dc7f12522522ace337e", "src/platform_impl/web/web_sys/animation_frame.rs": "6aee3f5a4ed6c2d6b8d5f570da552a618773e4e513c76746efcdd8c316f94043", "src/platform_impl/web/web_sys/canvas.rs": "f2272f16a45b2245bd2e7dfc9458899d1fd248a9615ab49d5976bd1584d9af56", "src/platform_impl/web/web_sys/event.rs": "f73d5c0509b1e4a430ac238712e5963d21d378e0701e9c2b67cf839d890e3fb1", "src/platform_impl/web/web_sys/event_handle.rs": "3e81317e037627fa4874d28ff6d43dff4cc3f2970f33496ed345910f33eed108", "src/platform_impl/web/web_sys/fullscreen.rs": "6cf26354391839b55f8d9f1426f842349bb159384a79598a47628da64ae5dc1d", "src/platform_impl/web/web_sys/intersection_handle.rs": "af2024c3fea10a70fa9fdbb6cca474730fecc9ccdcf1d3bb7cec6305fdb7346b", "src/platform_impl/web/web_sys/media_query_handle.rs": "0c6dde21f28ee2f47db2cf10f859e158e156549dd1c10141be02d9496ea720ab", "src/platform_impl/web/web_sys/mod.rs": "60c26a5a11e998a7ebaa0432fdc11aa1458a9b6676ca6c398487f7d9dbbdffc9", "src/platform_impl/web/web_sys/pointer.rs": "e6277ddcc06acf6d3e09ba95ea54e618c3d355a82f92fa8ee56463bd30c6f643", "src/platform_impl/web/web_sys/resize_scaling.rs": "fe98de29d14f60d10447ddd87ffec46bd24bfdf90095b608143f8d253627e06e", "src/platform_impl/web/web_sys/schedule.rs": "351aa8dc3019b4efd8af1457129faafc35ea8ce0581b39b9ac95d141753f2c09", "src/platform_impl/web/web_sys/worker.js": "13d7ad44fd0ad212cb3691cda3b94c0350b8f553447ec3395647472ed8e008cf", "src/platform_impl/web/web_sys/worker.min.js": "1781ca3da664be395164092322711dd677283d98753c6b4bfe448586e9fcc8fd", "src/platform_impl/windows/dark_mode.rs": "6beea8efebd326e27c20f1a13d664057b9317e3b6b71ed21b40755cb9e83c5f8", "src/platform_impl/windows/definitions.rs": "d3eb11a33c6daf98682796f7c019238fdc8bd2d389119699a20c1ed7d9dbddaf", "src/platform_impl/windows/dpi.rs": "de57490ede1509fadd0b92404450bb1044aa42fb59a14619e32497618e1dac46", "src/platform_impl/windows/drop_handler.rs": "47abcad8770ba1d5ec8c877c8e725aa330c472ef07ec4ffcb60c1e7ae33c41c8", "src/platform_impl/windows/event_loop.rs": "917c5858344b1925538af3240a80b8e222ba62c0292af5b2d0fac15b4890df00", "src/platform_impl/windows/icon.rs": "89dd2f1e567852327cdc20adfb78ce12404f9ecc6786178d4caffe425a8d96c5", "src/platform_impl/windows/ime.rs": "3632ab1cc7216562c0b782e179d9ef476ec72cba71e79f3085509cab21c1a44f", "src/platform_impl/windows/keyboard.rs": "93188bdea60bce1014d624f289d25063b59a14985a318ca736bf62d8ba3e5d16", "src/platform_impl/windows/keyboard_layout.rs": "d324796eaf474c35905f1b539cafaedaa3ee639e8ad7ad9ec559aeb2c56cf722", "src/platform_impl/windows/minimal_ime.rs": "f400011bf7f57b50dd6f47066b6b1f354339217887938c26cbd22a062594805c", "src/platform_impl/windows/mod.rs": "c739237f4903d6be9aaa3e913e50ae01575a689a4678486a3b82e214adf7020d", "src/platform_impl/windows/monitor.rs": "fb177904e37746a41ff7607b60863282c505a885180dc9e069904f379b66f206", "src/platform_impl/windows/raw_input.rs": "d36ff2c05cecc97b8b4e293a0a7dff4046a033b128101b07cc04812cbcc24b7a", "src/platform_impl/windows/util.rs": "beed128bdedfb31daaa28da786bc6bdae037cbb41e5bf4db4d10678a44c72a68", "src/platform_impl/windows/window.rs": "337a9fe3162e6ec2c4075b0a483fcdb9f424d57ac4c758bffc17adf712845bd7", "src/platform_impl/windows/window_state.rs": "61bdf7638068104794d9e47f39e1b31e04bb2a526cce365fdaa3e8ae8ffd7a19", "src/platform_impl/windows/event_loop/runner.rs": "dfa68a445d4218098e39c731d27abfb172d55a2580c8e5bd16e209409f315f5b", "tests/send_objects.rs": "dd13b75fa0584cb03f928de109afd08859cffe9fd7828529ea3f4f1041b5085d", "tests/serde_objects.rs": "25ba1c2321a77a5b67196dd694eea65f7101f59c78d0a64f511ea02457937396", "tests/sync_object.rs": "be6f81b8e53b705b6733135d7f3bb3a33294c3c3e28078ffbf3b448d19a98235"}, "package": null}
+\ No newline at end of file

@@ -1,0 +1,3 @@
+need to manually generate
+.cargo-checksum.json
+for each of the pre-vendor'd packages
