@@ -1,0 +1,86 @@
+diff '--color=auto' -Naur a/.cargo/config.toml b/.cargo/config.toml
+--- a/.cargo/config.toml	2026-11-11 18:55:05.000000000 -0800
++++ b/.cargo/config.toml	2026-11-12 09:51:42.113284866 -0800
+@@ -1,2 +1,43 @@
+ [alias]
+ xtask = "run -p xtask --"
++
++[source.crates-io]
++replace-with = "vendored-sources"
++
++[source."git+https://github.com/storytold/craft-libs?rev=081078bb1b44aeedfa5bef3d4f13d978dc77510a"]
++git = "https://github.com/storytold/craft-libs"
++rev = "081078bb1b44aeedfa5bef3d4f13d978dc77510a"
++replace-with = "vendored-sources"
++
++[source."git+https://github.com/storytold/craft-libs?rev=6e03f65bf45181db77ba6229716e6624db9eb25b"]
++git = "https://github.com/storytold/craft-libs"
++rev = "6e03f65bf45181db77ba6229716e6624db9eb25b"
++replace-with = "vendored-sources"
++
++[source."git+https://github.com/storytold/craft-libs?rev=b8f7d93b00dfb8f172938f3d2d796ae62dcfe123"]
++git = "https://github.com/storytold/craft-libs"
++rev = "b8f7d93b00dfb8f172938f3d2d796ae62dcfe123"
++replace-with = "vendored-sources"
++
++[source."git+https://github.com/storytold/egui.git?rev=6d518fc799681571963842f95b55a6b68431b15a"]
++git = "https://github.com/storytold/egui.git"
++rev = "6d518fc799681571963842f95b55a6b68431b15a"
++replace-with = "vendored-sources"
++
++[source."git+https://github.com/storytold/winit.git?rev=a517b3846ee8457d84ee4975110bfda6797c44dc"]
++git = "https://github.com/storytold/winit.git"
++rev = "a517b3846ee8457d84ee4975110bfda6797c44dc"
++replace-with = "vendored-sources"
++
++[source."git+https://github.com/storytold/winprint.rs?rev=64e7afd4d1483512385012c340ecaaaf0f3beb7f"]
++git = "https://github.com/storytold/winprint.rs"
++rev = "64e7afd4d1483512385012c340ecaaaf0f3beb7f"
++replace-with = "vendored-sources"
++
++[source."git+https://github.com/storytold/winprint.rs?rev=bc06a7c48b768eb27a828c7986f6d2868b245ee0"]
++git = "https://github.com/storytold/winprint.rs"
++rev = "bc06a7c48b768eb27a828c7986f6d2868b245ee0"
++replace-with = "vendored-sources"
++
++[source.vendored-sources]
++directory = "vendor"
+diff '--color=auto' -Naur a/Cargo.lock b/Cargo.lock
+--- a/Cargo.lock	2026-11-11 18:55:05.000000000 -0800
++++ b/Cargo.lock	2026-11-12 13:08:26.656084272 -0800
+@@ -10126,18 +10126,3 @@
+  "syn 3.0.6",
+  "winnow",
+ ]
+-
+-[[patch.unused]]
+-name = "egui_demo_lib"
+-version = "0.37.0"
+-source = "git+https://github.com/storytold/egui.git?rev=6d518fc799681571963842f95b55a6b68431b15a#6d518fc799681571963842f95b55a6b68431b15a"
+-
+-[[patch.unused]]
+-name = "egui_inspection"
+-version = "0.37.0"
+-source = "git+https://github.com/storytold/egui.git?rev=6d518fc799681571963842f95b55a6b68431b15a#6d518fc799681571963842f95b55a6b68431b15a"
+-
+-[[patch.unused]]
+-name = "egui_system_font_provider"
+-version = "0.37.0"
+-source = "git+https://github.com/storytold/egui.git?rev=6d518fc799681571963842f95b55a6b68431b15a#6d518fc799681571963842f95b55a6b68431b15a"
+diff '--color=auto' -Naur a/Cargo.toml b/Cargo.toml
+--- a/Cargo.toml	2026-11-11 18:55:05.000000000 -0800
++++ b/Cargo.toml	2026-11-12 13:08:13.268833981 -0800
+@@ -205,10 +205,10 @@
+ egui_glow = { git = "https://github.com/storytold/egui.git", rev = "6d518fc799681571963842f95b55a6b68431b15a" }
+ egui_extras = { git = "https://github.com/storytold/egui.git", rev = "6d518fc799681571963842f95b55a6b68431b15a" }
+ egui_kittest = { git = "https://github.com/storytold/egui.git", rev = "6d518fc799681571963842f95b55a6b68431b15a" }
+-egui_system_font_provider = { git = "https://github.com/storytold/egui.git", rev = "6d518fc799681571963842f95b55a6b68431b15a" }
++#egui_system_font_provider = { git = "https://github.com/storytold/egui.git", rev = "6d518fc799681571963842f95b55a6b68431b15a" }
+ eframe = { git = "https://github.com/storytold/egui.git", rev = "6d518fc799681571963842f95b55a6b68431b15a" }
+-egui_demo_lib = { git = "https://github.com/storytold/egui.git", rev = "6d518fc799681571963842f95b55a6b68431b15a" }
+-egui_inspection = { git = "https://github.com/storytold/egui.git", rev = "6d518fc799681571963842f95b55a6b68431b15a" }
++#egui_demo_lib = { git = "https://github.com/storytold/egui.git", rev = "6d518fc799681571963842f95b55a6b68431b15a" }
++#egui_inspection = { git = "https://github.com/storytold/egui.git", rev = "6d518fc799681571963842f95b55a6b68431b15a" }
+ winit = { git = "https://github.com/storytold/winit.git", rev = "a517b3846ee8457d84ee4975110bfda6797c44dc" }
+ # craft-pdf's vendored Hayro trees: consumers patch the same craft-libs revision (crates/pdf README).
+ hayro = { git = "https://github.com/storytold/craft-libs", rev = "6e03f65bf45181db77ba6229716e6624db9eb25b" }
