@@ -4,7 +4,7 @@ inherit cargo
 DESCRIPTION="An open-source photo editor written from scratch in pure Rust"
 HOMEPAGE="https://getartcraft.com/apps/photocraft"
 
-SRC_URI="https://github.com/storytold/photocraft/archive/refs/tags/v0.23.1.tar.gz -> ${P}.tar.gz"
+SRC_URI="https://github.com/storytold/photocraft/archive/refs/tags/v${PV}.tar.gz -> ${P}.tar.gz"
 PATCHES=( "${FILESDIR}/${P}-vendor.patch" )
 #S="${WORKDIR}/${P}"
 LICENSE="Apache-2.0 MIT"
