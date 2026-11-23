@@ -47,7 +47,7 @@ RDEPEND="${DEPEND}"
 src_unpack() {
   default
   tar xf "${FILESDIR}/cargo-${PV}.tar.zst" || die
-  unpack "${FILESDIR}/pnpm-store-${PV}.tar.xz"
+  unpack "${FILESDIR}/node_modules-${PV}.tar.xz"
   unpack "mecab-ipadic-${MECAB_IPADIC_VER}.tar.gz"
 }
 
@@ -55,32 +55,6 @@ src_prepare() {
   mkdir -p "${ECARGO_VENDOR}" || die
   rm -rf "${ECARGO_VENDOR}" || die
   ln -s "${WORKDIR}/vendor" "${ECARGO_VENDOR}" || die
-
-  local build_rs="${WORKDIR}/vendor/lindera-ipadic/build.rs"
-
-  # Replace Lindera's build-time HTTP download with a local archive copy.
-  sed -i \
-    -e '/use std::fs::{create_dir, rename, File};/s/create_dir, rename, File/create_dir, copy, File/' \
-    -e '/let tmp_path = Path::new(&build_dir)/,/rename(tmp_path, &source_path_for_build).expect("Failed to rename temporary file");/c\
-            let source_path = env::var_os("LINDERA_IPADIC_TARBALL")\
-                .ok_or("LINDERA_IPADIC_TARBALL must point to the IPADIC source archive")?;\
-            copy(source_path, \&source_path_for_build)?;' \
-    "${build_rs}" || die "Failed to patch lindera-ipadic build.rs"
-
-  local crate_dir="${WORKDIR}/vendor/lindera-ipadic"
-  local checksum_file="${crate_dir}/.cargo-checksum.json"
-  local build_hash
-
-  build_hash=$(sha256sum "${build_rs}") || die
-  build_hash=${build_hash%% *}
-
-  grep -q '"build.rs"' "${checksum_file}" ||
-    die "build.rs checksum entry not found in ${checksum_file}"
-
-  sed -i -E \
-    "s/(\"build.rs\":\"?)[0-9a-f]{64}/\1${build_hash}/" \
-    "${checksum_file}" || die "Failed to update vendored checksum"
-
   default
 }
 
@@ -103,7 +77,7 @@ src_compile() {
   cd "${S}/ui" || die
   XDG_CACHE_HOME="${WORKDIR}/pnpm-cache" \
     pnpm install --offline --frozen-lockfile --trust-lockfile \
-    --store-dir "${WORKDIR}/pnpm-store" || die
+    --store-dir "${WORKDIR}/node_modules" || die
   pnpm build || die
 
   cd "${S}" || die
